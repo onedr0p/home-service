@@ -1,9 +1,11 @@
 # home-dns
 
-## bind9
+## Apps
+
+### bind
 
 > [!IMPORTANT]
-> **Do not** modify the key contents after it's created, instead create a new key using `tsig-keygen`.
+> **Do not** modify the key contents after it's creation, instead create a new key using `tsig-keygen`.
 
 1. Create the base rndc key...
 
@@ -20,19 +22,22 @@
 3. Edit `./bind9/config/named.conf` with your included keys and zones.
 4. Update `./bind9/config/zones` with your DNS configuration.
 
-## blocky
+### blocky
 
-1. Edit `./blocky/config/config.yaml` with your bind IP address.
+> [!IMPORTANT]
+> Blocky can take awhile to start depending on how many blocklists you have configured
+
+1. Edit `./blocky/config/config.yaml` with your bind IP address for `.clientLookup.upstream`
 2. Change any other configuration you want (e.g. blocklists)
 
-## dnsdist
+### dnsdist
 
 1. Edit `./dnsdist/config/dnsdist.conf` and update the IP addresses for bind and blocky.
 2. Change the actions to suit your needs.
 
 ## Testing
 
-```
+```sh
 dig @192.168.10.214 -p 53 google.com          # dnsdist external query
 dig @192.168.10.214 -p 53 expanse.turbo.ac    # dnsdist internal query
 dig @192.168.10.214 -p 53003 google.com       # blocky external query
