@@ -1,0 +1,35 @@
+; SOA Records
+$TTL 3600
+$ORIGIN 168.192.in-addr.arpa.
+@ 3600 IN SOA 168.192.in-addr.arpa. ns.turbo.ac. (
+    2024040705         ; serial number
+    7200               ; refresh period
+    3600               ; retry period
+    1209600            ; expire time
+    3600               ; minimum ttl
+)
+
+; NS Records
+@                          IN  NS     ns.turbo.ac.
+
+; Reset origin
+$ORIGIN in-addr.arpa.
+
+; LAN
+1.1.168.192                IN  PTR    unifi.turbo.ac.
+42.1.168.192               IN  PTR    pikvm.turbo.ac.
+90.1.168.192               IN  PTR    zigbee-controller.turbo.ac.
+94.1.168.192               IN  PTR    zwave-controller.turbo.ac.
+
+; TRUSTED
+20.10.168.192              IN  PTR    garage-door.turbo.ac.
+21.10.168.192              IN  PTR    vacuum.turbo.ac.
+
+; Servers
+10.42.168.192              IN  PTR    k8s-0.turbo.ac.
+11.42.168.192              IN  PTR    k8s-1.turbo.ac.
+12.42.168.192              IN  PTR    k8s-2.turbo.ac.
+13.42.168.192              IN  PTR    k8s-3.turbo.ac.
+14.42.168.192              IN  PTR    k8s-4.turbo.ac.
+15.42.168.192              IN  PTR    k8s-5.turbo.ac.
+80.42.168.192              IN  PTR    expanse.turbo.ac.
