@@ -7,7 +7,7 @@ My home DNS stack running on [Fedora IoT](https://fedoraproject.org/iot/) and ma
 1. Install base system deps and reboot ...
 
     ```sh
-    sudo rpm-ostree install --idempotent --assumeyes curl git go-task
+    sudo rpm-ostree install --idempotent --assumeyes git go-task
     sudo systemctl reboot
     ```
 
