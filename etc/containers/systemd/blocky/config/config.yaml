@@ -1,7 +1,7 @@
 ---
 ports:
-  dns: 0.0.0.0:53003
-  http: 0.0.0.0:8083
+  dns: 0.0.0.0:5301
+  http: 0.0.0.0:4000
 
 upstreams:
   groups:
@@ -10,7 +10,7 @@ upstreams:
       - tcp-tls:1.0.0.1:853
 
 clientLookup:
-  upstream: 192.168.10.214:53002 # bind
+  upstream: 192.168.1.50:5300 # bind
 
 ecs:
   useAsClient: true

@@ -1,0 +1,19 @@
+[Unit]
+Description=bind
+
+[Container]
+ContainerName=bind
+Image=docker.io/ubuntu/bind9:9.18-22.04_beta
+Environment=TZ=America/New_York
+Environment=BIND9_USER=root
+Volume=./bind/cache:/var/cache/bind
+Volume=./bind/config:/etc/bind:ro
+Volume=./bind/records:/var/lib/bind
+Network=host
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=multi-user.target default.target

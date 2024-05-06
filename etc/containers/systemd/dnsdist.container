@@ -1,0 +1,17 @@
+[Unit]
+Description=dnsdist
+
+[Container]
+ContainerName=dnsdist
+Image=docker.io/powerdns/dnsdist-19:1.9.3
+Environment=TZ=America/New_York
+Volume=./dnsdist/config/dnsdist.conf:/etc/dnsdist/dnsdist.conf:ro
+Network=host
+AddCapability=NET_BIND_SERVICE
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=multi-user.target default.target

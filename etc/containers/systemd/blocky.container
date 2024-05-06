@@ -1,0 +1,16 @@
+[Unit]
+Description=blocky
+
+[Container]
+ContainerName=blocky
+Image=ghcr.io/0xerr0r/blocky:v0.23
+Environment=TZ=America/New_York
+Volume=./blocky/config/config.yaml:/app/config.yml:ro
+Network=host
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=multi-user.target default.target
