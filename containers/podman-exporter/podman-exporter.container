@@ -1,0 +1,22 @@
+[Unit]
+Description=podman-exporter
+Requires=podman.socket
+After=podman.socket
+
+[Container]
+ContainerName=podman-exporter
+Image=quay.io/navidys/prometheus-podman-exporter:v1.11.0
+# sudo systemctl enable --now podman.socket
+Environment=CONTAINER_HOST=unix:///run/podman/podman.sock
+Volume=/run/podman/podman.sock:/run/podman/podman.sock
+Network=host
+SecurityLabelDisable=true
+User=root
+Exec=--collector.enhance-metrics
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=multi-user.target default.target

@@ -1,8 +1,8 @@
 ; SOA Records
 $TTL 3600
 $ORIGIN turbo.ac.
-@ 3600 IN SOA turbo.ac. ns.turbo.ac. (
-    2024040705         ; serial number
+@ 3600 IN SOA turbo.ac. voyager.turbo.ac. (
+    0000000001         ; serial number
     7200               ; refresh period
     3600               ; retry period
     1209600            ; expire time
@@ -10,18 +10,24 @@ $ORIGIN turbo.ac.
 )
 
 ; NS Records
-@                          IN  NS     ns.turbo.ac.
-ns                         IN  A      192.168.1.50
+@                          IN  NS     voyager.turbo.ac.
 
 ; LAN
 unifi                      IN  A      192.168.1.1
-pikvm                      IN  A      192.168.1.42
+voyager                    IN  A      192.168.1.42
+idrac                      IN  A      192.168.1.82
+hdhomerun                  IN  A      192.168.1.83
+pikvm                      IN  A      192.168.1.84
 zigbee-controller          IN  A      192.168.1.90
 zwave-controller           IN  A      192.168.1.94
 
 ; TRUSTED
 garage-door                IN  A      192.168.10.20
 vacuum                     IN  A      192.168.10.21
+kiosk                      IN  A      192.168.10.22
+living-room-shield         IN  A      192.168.10.24
+master-bedroom-shield      IN  A      192.168.10.25
+living-room-receiver       IN  A      192.168.10.26
 
 ; Servers
 k8s-0                      IN  A      192.168.42.10

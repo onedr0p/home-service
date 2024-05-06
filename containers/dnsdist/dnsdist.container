@@ -1,5 +1,7 @@
 [Unit]
 Description=dnsdist
+Requires=bind.service blocky.service
+After=bind.service blocky.service
 
 [Container]
 ContainerName=dnsdist

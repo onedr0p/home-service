@@ -1,0 +1,16 @@
+[Unit]
+Description=node-exporter
+
+[Container]
+ContainerName=node-exporter
+Image=quay.io/prometheus/node-exporter:v1.8.0
+Volume=/:/host:ro,rslave
+Network=host
+Exec=--path.rootfs=/host
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=multi-user.target default.target

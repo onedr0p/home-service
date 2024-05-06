@@ -12,7 +12,7 @@ tasks:
     desc: Install System Deps
     cmds:
       - "sudo rpm-ostree install --idempotent --assumeyes \
-            bind-utils git go-task htop nano net-tools netcat nmap tcpdump telnet tree wget"
+            bind-utils git go-task htop nano net-tools netcat nmap moreutils rsync tcpdump telnet tree wget"
 
   start-*:
     desc: Start a container service
@@ -53,13 +53,12 @@ tasks:
   .reload:
     desc: Reload a container
     cmds:
-      - sudo cp {{.ROOT_DIR}}/containers/{{.container}}/{{.container}}.container /etc/containers/systemd/
-      - sudo cp -r {{.ROOT_DIR}}/containers/{{.container}}/data /etc/containers/systemd/{{.container}}
+      - sudo rsync -rv {{.ROOT_DIR}}/containers/{{.container}}/{{.container}}.container /etc/containers/systemd/
+      - sudo rsync -rv --delete {{.ROOT_DIR}}/containers/{{.container}}/data/ /etc/containers/systemd/{{.container}}
       - sudo systemctl daemon-reload
     sources:
-      - "{{.ROOT_DIR}}/containers/{{.container}}/**"
+      - "{{.ROOT_DIR}}/containers/{{.container}}/**/**"
     generates:
-      - /etc/containers/systemd/{{.container}}.container
       - /etc/containers/systemd/{{.container}}/**/**
       - /run/systemd/generator/{{.container}}.service
     requires:

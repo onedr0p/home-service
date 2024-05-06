@@ -1,5 +1,7 @@
 [Unit]
 Description=blocky
+Requires=bind.service
+After=bind.service
 
 [Container]
 ContainerName=blocky
