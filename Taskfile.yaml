@@ -59,6 +59,7 @@ tasks:
     sources:
       - "{{.ROOT_DIR}}/containers/{{.container}}/**/**"
     generates:
+      - /etc/containers/systemd/{{.container}}.container
       - /etc/containers/systemd/{{.container}}/**/**
       - /run/systemd/generator/{{.container}}.service
     requires:
