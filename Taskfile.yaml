@@ -2,6 +2,9 @@
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: "3"
 
+vars:
+  TFTP_ROOT: "{{.ROOT_DIR}}/containers/tftpd/data/config"
+
 tasks:
 
   default:
@@ -65,3 +68,9 @@ tasks:
     requires:
       vars: ["container"]
     internal: true
+
+  tftp:download:
+    desc: Download required TFTP files for PXEBoot
+    cmds:
+      - curl -sL -o {{.TFTP_ROOT}}/ipxe.efi http://boot.ipxe.org/ipxe.efi
+      - curl -sL -o {{.TFTP_ROOT}}/undionly.kpxe http://boot.ipxe.org/undionly.kpxe

@@ -1,0 +1,15 @@
+[Unit]
+Description=tftpd
+
+[Container]
+ContainerName=tftpd
+Image=ghcr.io/wastrachan/tftpd:latest
+Volume=./tftpd/config:/data
+Network=host
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=multi-user.target default.target

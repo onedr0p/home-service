@@ -6,7 +6,6 @@ After=podman.socket
 [Container]
 ContainerName=podman-exporter
 Image=quay.io/navidys/prometheus-podman-exporter:v1.11.0
-# sudo systemctl enable --now podman.socket
 Environment=CONTAINER_HOST=unix:///run/podman/podman.sock
 Volume=/run/podman/podman.sock:/run/podman/podman.sock
 Network=host

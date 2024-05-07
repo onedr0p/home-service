@@ -1,0 +1,16 @@
+[Unit]
+Description=matchbox
+
+[Container]
+ContainerName=matchbox
+Image=quay.io/poseidon/matchbox:v0.11.0
+Volume=./matchbox/config:/var/lib/matchbox
+Network=host
+Exec=-address=0.0.0.0:5050 -log-level=debug
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=multi-user.target default.target
