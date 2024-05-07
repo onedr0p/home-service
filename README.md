@@ -29,21 +29,13 @@ My home DNS stack running on [Fedora IoT](https://fedoraproject.org/iot/) and ma
     go-task deps
     ```
 
-4. Ensure `systemd-resolved` is not listening on port `53`
-
-    ```sh
-    sudo bash -c 'cat << EOF > /etc/systemd/resolved.conf.d/stub-listener.conf
-    [Resolve]
-    DNSStubListener=no'
-    ```
-
-5. Reboot `sudo systemctl reboot`
+4. Reboot `sudo systemctl reboot`
 
 ## Container configuration
 
 ### bind
 
-> [!WARNING]
+> [!IMPORTANT]
 > **Do not** modify the key contents after it's creation, instead create a new key using `tsig-keygen`.
 
 1. Create the base rndc key
@@ -66,7 +58,7 @@ My home DNS stack running on [Fedora IoT](https://fedoraproject.org/iot/) and ma
 
 ### blocky
 
-> [!NOTE]
+> [!IMPORTANT]
 > Blocky can take awhile to start depending on how many blocklists you have configured
 
 1. Update `./containers/blocky/data/config/config.yaml` with your configuration and then start it
@@ -77,8 +69,8 @@ My home DNS stack running on [Fedora IoT](https://fedoraproject.org/iot/) and ma
 
 ### dnsdist
 
-> [!WARNING]
-> Ensure `systemd-resolved` is not listening on port `53`
+> [!IMPORTANT]
+> Prevent `systemd-resolved` from listening on port `53`
 > ```sh
 > sudo bash -c 'cat << EOF > /etc/systemd/resolved.conf.d/stub-listener.conf
 > [Resolve]
