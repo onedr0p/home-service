@@ -22,14 +22,12 @@ My home DNS stack running on [Fedora IoT](https://fedoraproject.org/iot/) and ma
     git clone git@github.com:$GITHUB_USER/home-dns.git .
     ```
 
-3. Install additional system deps
+3. Install additional system deps and reboot
 
     ```sh
-    cd /var/opt/home-dns
     go-task deps
+    sudo systemctl reboot
     ```
-
-4. Reboot `sudo systemctl reboot`
 
 ## Container configuration
 
