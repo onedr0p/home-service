@@ -1,8 +1,8 @@
 # home-dns
 
-My home DNS stack running on [Fedora IoT](https://fedoraproject.org/iot/) and managed by podman and systemd
+My home DNS stack running on [Fedora IoT](https://fedoraproject.org/iot/) and managed by podman and systemd.
 
-## Fedora IoT
+## System configuration
 
 1. Install base system deps and reboot ...
 
@@ -41,22 +41,17 @@ My home DNS stack running on [Fedora IoT](https://fedoraproject.org/iot/) and ma
     sudo systemctl mask firewalld.service
     ```
 
-6. Disable `systemd-resolved`, update `/etc/resolv.conf` and reboot ...
+6. Ensure `systemd-resolved` is not listening on port `53` ...
 
     ```sh
-    export DOMAIN="turbo.ac"
-    sudo systemctl mask systemd-resolved.service
-    sudo rm -rf /etc/resolv.conf
-    sudo --preserve-env bash -c 'cat << EOF > /etc/resolv.conf
-    nameserver 1.1.1.1
-    domain $DOMAIN
-    search $DOMAIN
-    EOF'
-    sudo chattr +i /etc/resolv.conf
-    sudo systemctl reboot
+    sudo bash -c 'cat << EOF > /etc/systemd/resolved.conf.d/stub-listener.conf
+    [Resolve]
+    DNSStubListener=no'
     ```
 
-## Apps
+7. Reboot `sudo systemctl reboot` ...
+
+## Container configuration
 
 ### bind
 
@@ -75,11 +70,11 @@ My home DNS stack running on [Fedora IoT](https://fedoraproject.org/iot/) and ma
     tsig-keygen -a hmac-sha256 kubernetes-main-key > ./containers/bind/data/config/kubernetes-main.key
     ```
 
-3. Edit `./containers/bind/data/config/named.conf` with your included keys and zones.
+3. Edit `./containers/bind/data/config/named.conf` with your included keys and zones ...
 
-4. Update `./containers/bind/data/config/zones` with your DNS configuration.
+4. Update `./containers/bind/data/config/zones` with your DNS configuration ...
 
-5. Attempt to run bind
+5. Start bind ...
 
     ```sh
     go-task start-bind
@@ -90,11 +85,11 @@ My home DNS stack running on [Fedora IoT](https://fedoraproject.org/iot/) and ma
 > [!IMPORTANT]
 > Blocky can take awhile to start depending on how many blocklists you have configured
 
-1. Edit `./etc/containers/systemd/blocky/config/config.yaml` with your bind IP address for `.clientLookup.upstream`
+1. Edit `./containers/blocky/data/config/config.yaml` with your bind IP address for `.clientLookup.upstream` ...
 
-2. Change any other configuration you want (e.g. blocklists)
+2. Change any other configuration you want (e.g. blocklists) ...
 
-3. Attempt to run blocky
+3. Start blocky ...
 
     ```sh
     go-task start-blocky
@@ -102,23 +97,56 @@ My home DNS stack running on [Fedora IoT](https://fedoraproject.org/iot/) and ma
 
 ### dnsdist
 
-1. Edit `./etc/containers/systemd/dnsdist/config/dnsdist.conf` and update the IP addresses for bind and blocky.
+1. Edit `./containers/dnsdist/data/config/dnsdist.conf` and update the IP addresses for bind and blocky ...
 
-2. Change the actions to suit your networks.
+2. Change the actions to suit your networks ...
 
-3. Attempt to run dnsdist
+3. Start dnsdist ...
 
     ```sh
     go-task start-dnsdist
     ```
 
-## Testing
+### onepassword
+
+1. Add your `./containers/onepassword-connect/data/config/1password-credentials.json` ...
+
+2. Start `onepassword-connect` and `onepassword-sync` ...
+
+    ```sh
+    go-task start-onepassword-connect
+    go-task start-onepassword-sync
+    ```
+
+### podman-exporter
+
+1. Start the `podman.socket` service is running ...
+
+    ```sh
+    sudo systemctl enable --now podman.socket
+    ```
+
+2. Start podman-exporter ...
+
+    ```sh
+    go-task start-podman-exporter
+    ```
+
+### node-exporter
+
+1. Start node-exporter ...
+
+    ```sh
+    go-task start-node-exporter
+    ```
+
+## Testing DNS
 
 ```sh
-dig @192.168.1.50 -p 53 google.com         # dnsdist external query
-dig @192.168.1.50 -p 53 expanse.turbo.ac   # dnsdist internal query
-dig @192.168.1.50 -p 5301 google.com       # blocky external query
-dig @192.168.1.50 -p 5301 expanse.turbo.ac # blocky internal query
-dig @192.168.1.50 -p 5300 google.com       # bind external query
-dig @192.168.1.50 -p 5300 expanse.turbo.ac # bind internal query
+dig +short @192.168.1.42 -p 53 google.com         # dnsdist external query
+dig +short @192.168.1.42 -p 53 expanse.turbo.ac   # dnsdist internal query
+dig +short @192.168.1.42 -p 5300 google.com       # bind external query
+dig +short @192.168.1.42 -p 5300 expanse.turbo.ac # bind internal query
+dig +short @192.168.1.42 -p 5301 google.com       # blocky external query
+dig +short @192.168.1.42 -p 5301 expanse.turbo.ac # blocky internal query
 ```

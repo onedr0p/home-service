@@ -10,7 +10,7 @@ upstreams:
       - tcp-tls:1.0.0.1:853
 
 clientLookup:
-  upstream: 192.168.1.50:5300 # bind
+  upstream: 192.168.1.42:5300 # bind
 
 ecs:
   useAsClient: true
