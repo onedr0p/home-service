@@ -14,8 +14,12 @@ tasks:
   deps:
     desc: Install System Deps
     cmds:
-      - "sudo rpm-ostree install --idempotent --assumeyes \
-            bind-utils git go-task htop nano net-tools netcat nmap moreutils rsync tcpdump telnet tree wget"
+      - sudo rpm-ostree update
+      - sudo rpm-ostree upgrade
+      - sudo rpm-ostree install --idempotent --assumeyes bind-utils git go-task htop nano net-tools netcat nmap moreutils rsync tcpdump telnet tree wget
+      - curl -sL -o /tmp/1password-cli-latest.x86_64.rpm https://downloads.1password.com/linux/rpm/stable/x86_64/1password-cli-latest.x86_64.rpm
+      - sudo rpm-ostree install /tmp/1password-cli-latest.x86_64.rpm
+      - rm -rf /tmp/1password-cli-latest.x86_64.rpm
 
   start-*:
     desc: Start a container service
@@ -63,14 +67,17 @@ tasks:
       - "{{.ROOT_DIR}}/containers/{{.container}}/**/**"
     generates:
       - /etc/containers/systemd/{{.container}}.container
-      - /etc/containers/systemd/{{.container}}/**/**
+      - /etc/containers/systemd/{{.container}}/config/**/**
       - /run/systemd/generator/{{.container}}.service
     requires:
       vars: ["container"]
+    label: reload-{{.container}}
     internal: true
 
-  tftp:download:
-    desc: Download required TFTP files for PXEBoot
+  tftpd:
+    desc: Setup tftpd
     cmds:
-      - curl -sL -o {{.TFTP_ROOT}}/ipxe.efi http://boot.ipxe.org/ipxe.efi
       - curl -sL -o {{.TFTP_ROOT}}/undionly.kpxe http://boot.ipxe.org/undionly.kpxe
+      - curl -sL -o {{.TFTP_ROOT}}/ipxe.efi http://boot.ipxe.org/ipxe.efi
+      - curl -sL -o {{.TFTP_ROOT}}/ipxe-arm64.efi https://boot.ipxe.org/arm64-efi/ipxe.efi
+      - task: restart-tftpd

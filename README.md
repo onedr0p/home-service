@@ -118,15 +118,27 @@ My home DNS stack running on [Fedora IoT](https://fedoraproject.org/iot/) and ma
 ## Testing DNS
 
 ```sh
-dig +short @192.168.1.42 -p 53 google.com         # dnsdist external query
-dig +short @192.168.1.42 -p 53 expanse.turbo.ac   # dnsdist internal query
-dig +short @192.168.1.42 -p 5300 google.com       # bind external query
-dig +short @192.168.1.42 -p 5300 expanse.turbo.ac # bind internal query
-dig +short @192.168.1.42 -p 5301 google.com       # blocky external query
-dig +short @192.168.1.42 -p 5301 expanse.turbo.ac # blocky internal query
+echo "dnsdist external query"; dig +short @192.168.1.42 -p 53 google.com | sed 's/^/  /'
+echo "dnsdist internal query"; dig +short @192.168.1.42 -p 53 expanse.turbo.ac | sed 's/^/  /'
+echo "bind external query";    dig +short @192.168.1.42 -p 5300 google.com | sed 's/^/  /'
+echo "bind internal query";    dig +short @192.168.1.42 -p 5300 expanse.turbo.ac | sed 's/^/  /'
+echo "blocky external query";  dig +short @192.168.1.42 -p 5301 google.com | sed 's/^/  /'
+echo "blocky internal query";  dig +short @192.168.1.42 -p 5301 expanse.turbo.ac | sed 's/^/  /'
 ```
 
 ## Optional configuration
+
+### Alias go-task
+
+> [!NOTE]
+> This is for only using the [fish shell](https://fishshell.com/)
+
+```sh
+function task --wraps=go-task --description 'go-task shorthand'
+    go-task $argv
+end
+funcsave task
+```
 
 ### Tune selinux
 
