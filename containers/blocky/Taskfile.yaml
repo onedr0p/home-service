@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: "3"
+
+tasks:
+
+  state-*:
+    desc: Enable or Disable adblocking
+    cmd: sudo podman exec -it blocky ./blocky blocking {{.state}}
+    vars:
+      state: '{{index .MATCH 0}}'
+
+  refresh:
+    desc: Refresh adblock lists
+    cmd: sudo podman exec -it blocky ./blocky lists refresh

@@ -28,25 +28,24 @@ api:
   insecure: true
   debug: true
 
-# certificatesResolvers:
-#   le-production:
-#     acme:
-#       email: devin.kray@gmail.com
-#       storage: /data/acme.json
-#       caServer: https://acme-v02.api.letsencrypt.org/directory
-#       dnsChallenge:
-#         provider: cloudflare
-#         delayBeforeCheck: 0
-#         resolvers: ["1.1.1.1:53", "8.8.8.8:53"]
+certificatesResolvers:
+  letsencryptProduction:
+    acme:
+      storage: /data/acme.json
+      caServer: https://acme-v02.api.letsencrypt.org/directory
+      dnsChallenge:
+        provider: cloudflare
+        delayBeforeCheck: 0
+        resolvers: ["1.1.1.1:53", "8.8.8.8:53"]
 
 entryPoints:
   web:
     address: :80
-  # websecure:
-  #   address: :443
-  #   http:
-  #     tls:
-  #       certResolver: le-production
+  websecure:
+    address: :443
+    http:
+      tls:
+        certResolver: letsencryptProduction
 
 serversTransport:
   insecureSkipVerify: true
@@ -55,6 +54,7 @@ http:
   routers:
     dashboard:
       rule: Host(`traefik.turbo.ac`)
+      entryPoints: ["web"]
       service: api@internal
     matchbox:
       rule: Host(`matchbox.turbo.ac`)

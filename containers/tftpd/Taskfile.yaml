@@ -14,8 +14,8 @@ tasks:
       - curl -sL -o {{.ROOT_DIR}}/containers/tftpd/data/config/ipxe.efi http://boot.ipxe.org/ipxe.efi
       - curl -sL -o {{.ROOT_DIR}}/containers/tftpd/data/config/ipxe-arm64.efi https://boot.ipxe.org/arm64-efi/ipxe.efi
 
-  ipxe-hack:
-    desc: Upload config for iPXE and restart dnsmasq
+  pxe-hack:
+    desc: Upload PXE config to Unifi router and restart dnsmasq
     cmds:
       - scp -r {{.ROOT_DIR}}/hack/ipxe.conf root@{{.ROUTER_ADDR}}:/run/dnsmasq.conf.d/ipxe.conf
       - ssh root@{{.ROUTER_ADDR}} "pkill dnsmasq"
