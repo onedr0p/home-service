@@ -11,5 +11,16 @@
     ":timezone(America/New_York)"
   ],
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
-  "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"]
+  "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": ["Process container versions"],
+      "fileMatch": ["(^|/)containers/.+\\.container$"],
+      "matchStrings": [
+        "Image=(?<depName>\\S+):(?<currentValue>\\S+)"
+      ],
+      "datasourceTemplate": "docker"
+    }
+  ]
 }
