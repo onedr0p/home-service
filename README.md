@@ -4,14 +4,16 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
 
 ## Core Components
 
+- [1password-connect](https://github.com/1Password/connect): API server for 1Password that lets me integrate secrets into my infrastructure and Kubernetes clusters.
 - [bind9](https://www.isc.org/bind/): Authoritative DNS server for my domains.
 - [blocky](https://github.com/0xERR0R/blocky): Fast and lightweight ad-blocker.
 - [dnsdist](https://dnsdist.org/): A DNS load balancer.
 - [matchbox](https://github.com/poseidon/matchbox): PXE boot bare-metal machines.
 - [node-exporter](https://github.com/prometheus/node_exporter): Exporter for machine metrics.
-- [1password-connect](https://github.com/1Password/connect): Access 1Password secrets.
 - [podman-exporter](https://github.com/containers/prometheus-podman-exporter): Prometheus exporter for podman.
-- [tftpd](https://linux.die.net/man/8/tftpd): A trivial file transfer protocol server.
+- [sops](https://github.com/getsops/sops): Manage secrets which are commited to Git.
+- [tftpd](https://linux.die.net/man/8/tftpd): A trivial file transfer protocol server for use with PXE.
+- [traefik](https://github.com/traefik/traefik): Reverse proxy for L7 applications.
 
 ## System configuration
 
