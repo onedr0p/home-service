@@ -17,9 +17,7 @@
       "customType": "regex",
       "description": ["Process container versions"],
       "fileMatch": ["(^|/)containers/.+\\.container$"],
-      "matchStrings": [
-        "Image=(?<depName>\\S+):(?<currentValue>\\S+)"
-      ],
+      "matchStrings": ["Image=(?<depName>\\S+):(?<currentValue>.*?)"],
       "datasourceTemplate": "docker"
     }
   ]

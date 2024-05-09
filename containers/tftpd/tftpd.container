@@ -3,7 +3,7 @@ Description=tftpd
 
 [Container]
 ContainerName=tftpd
-Image=ghcr.io/wastrachan/tftpd:latest
+Image=ghcr.io/wastrachan/tftpd:latest@sha256:34cafee65b9757ed397f6dce36dd27166257b41076b0b6f139621fe506eddcdd
 Volume=./tftpd/config:/data
 Network=host
 
