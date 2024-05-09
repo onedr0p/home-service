@@ -63,7 +63,7 @@ tasks:
       - sudo systemctl daemon-reload
     sources:
       - "{{.ROOT_DIR}}/containers/{{.container}}.container"
-      - "{{.ROOT_DIR}}/containers/{{.container}}/config/**/**"
+      - "{{.ROOT_DIR}}/containers/{{.container}}/data/config/**/**"
     generates:
       - /etc/containers/systemd/{{.container}}.container
       - /etc/containers/systemd/{{.container}}/config/**/**
