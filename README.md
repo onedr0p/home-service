@@ -98,13 +98,13 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
 
 ### onepassword
 
-1. Add your `./containers/onepassword-connect/data/config/1password-credentials.json` configuration
+1. Add your `./containers/op-connect-api/data/config/1password-credentials.json` configuration
 
-2. Start `onepassword-connect` and `onepassword-sync`
+2. Start `op-connect-api` and `op-connect-sync`
 
     ```sh
-    task start-onepassword-connect
-    task start-onepassword-sync
+    task start-op-connect-api
+    task start-op-connect-sync
     ```
 
 ### node-exporter

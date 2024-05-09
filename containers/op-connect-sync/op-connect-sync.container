@@ -1,15 +1,16 @@
 [Unit]
-Description=onepassword-sync
-Requires=onepassword-connect.service
-After=onepassword-connect.service
+Description=op-connect-sync
+Requires=op-connect-api.service
+After=op-connect-api.service
 
 [Container]
-ContainerName=onepassword-sync
+ContainerName=op-connect-sync
 Image=docker.io/1password/connect-sync:1.7.2@sha256:fe527ed9d81f193d8dfbba4140d61f9e8c8dceb0966b3009259087504e5ff79c
+Environment=OP_HTTP_PORT=8082
 Environment=OP_SESSION=/config/1password-credentials.json
 Environment=XDG_DATA_HOME=/data
-Volume=./onepassword-connect/config/1password-credentials.json:/config/1password-credentials.json:ro
-Volume=./onepassword-connect/cache:/data
+Volume=./op-connect-api/config/1password-credentials.json:/config/1password-credentials.json:ro
+Volume=./op-connect-api/cache:/data
 Network=host
 User=root
 

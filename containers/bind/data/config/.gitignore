@@ -1,1 +1,4 @@
-*.key
+/*
+!.gitignore
+named.conf
+zones/

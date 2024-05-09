@@ -1,0 +1,75 @@
+global:
+  checkNewVersion: false
+  sendAnonymousUsage: false
+
+log:
+  level: INFO
+
+providers:
+  file:
+    filename: /etc/traefik/traefik.yaml
+    watch: true
+
+tls:
+  options:
+    default:
+      sniStrict: true
+      minVersion: VersionTLS12
+      cipherSuites:
+        - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305
+        - TLS_AES_128_GCM_SHA256
+        - TLS_AES_256_GCM_SHA384
+        - TLS_CHACHA20_POLY1305_SHA256
+
+api:
+  dashboard: true
+  insecure: true
+  debug: true
+
+# certificatesResolvers:
+#   le-production:
+#     acme:
+#       email: devin.kray@gmail.com
+#       storage: /data/acme.json
+#       caServer: https://acme-v02.api.letsencrypt.org/directory
+#       dnsChallenge:
+#         provider: cloudflare
+#         delayBeforeCheck: 0
+#         resolvers: ["1.1.1.1:53", "8.8.8.8:53"]
+
+entryPoints:
+  web:
+    address: :80
+  # websecure:
+  #   address: :443
+  #   http:
+  #     tls:
+  #       certResolver: le-production
+
+serversTransport:
+  insecureSkipVerify: true
+
+http:
+  routers:
+    dashboard:
+      rule: Host(`traefik.turbo.ac`)
+      service: api@internal
+    matchbox:
+      rule: Host(`matchbox.turbo.ac`)
+      entryPoints: ["web"]
+      service: matchbox
+    op-connect:
+      rule: Host(`op-connect.turbo.ac`)
+      entryPoints: ["web"]
+      service: op-connect
+  services:
+    matchbox:
+      loadBalancer:
+        servers:
+          - url: http://192.168.1.42:5050
+    op-connect:
+      loadBalancer:
+        servers:
+          - url: http://192.168.1.42:8081
