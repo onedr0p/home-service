@@ -2,8 +2,8 @@
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: "3"
 
-vars:
-  TFTP_ROOT: "{{.ROOT_DIR}}/containers/tftpd/data/config"
+includes:
+  tftpd: .taskfiles/tftpd
 
 tasks:
 
@@ -14,8 +14,6 @@ tasks:
   deps:
     desc: Install System Deps
     cmds:
-      - sudo rpm-ostree update
-      - sudo rpm-ostree upgrade
       - sudo rpm-ostree install --idempotent --assumeyes bind-utils git go-task htop nano net-tools netcat nmap moreutils rsync tcpdump telnet tree wget
       - curl -sL -o /tmp/1password-cli-latest.x86_64.rpm https://downloads.1password.com/linux/rpm/stable/x86_64/1password-cli-latest.x86_64.rpm
       - sudo rpm-ostree install /tmp/1password-cli-latest.x86_64.rpm
@@ -32,10 +30,7 @@ tasks:
 
   stop-*:
     desc: Stop a container service
-    cmds:
-      - task: .reload
-        vars: { container: "{{.container}}" }
-      - sudo systemctl stop {{.container}}
+    cmd: sudo systemctl stop {{.container}}
     vars:
       container: '{{index .MATCH 0}}'
 
@@ -50,10 +45,13 @@ tasks:
 
   status-*:
     desc: Status of a container service
-    cmds:
-      - task: .reload
-        vars: { container: "{{.container}}" }
-      - sudo systemctl status {{.container}}
+    cmd: sudo systemctl status {{.container}}
+    vars:
+      container: '{{index .MATCH 0}}'
+
+  logs-*:
+    desc: Tail logs of a container
+    cmd: sudo podman logs -f {{.container}}
     vars:
       container: '{{index .MATCH 0}}'
 
@@ -64,20 +62,13 @@ tasks:
       - sudo rsync -rv --delete {{.ROOT_DIR}}/containers/{{.container}}/data/ /etc/containers/systemd/{{.container}}
       - sudo systemctl daemon-reload
     sources:
-      - "{{.ROOT_DIR}}/containers/{{.container}}/**/**"
+      - "{{.ROOT_DIR}}/containers/{{.container}}.container"
+      - "{{.ROOT_DIR}}/containers/{{.container}}/config/**/**"
     generates:
       - /etc/containers/systemd/{{.container}}.container
       - /etc/containers/systemd/{{.container}}/config/**/**
       - /run/systemd/generator/{{.container}}.service
+    label: reload-{{.container}}
     requires:
       vars: ["container"]
-    label: reload-{{.container}}
     internal: true
-
-  tftpd:
-    desc: Setup tftpd
-    cmds:
-      - curl -sL -o {{.TFTP_ROOT}}/undionly.kpxe http://boot.ipxe.org/undionly.kpxe
-      - curl -sL -o {{.TFTP_ROOT}}/ipxe.efi http://boot.ipxe.org/ipxe.efi
-      - curl -sL -o {{.TFTP_ROOT}}/ipxe-arm64.efi https://boot.ipxe.org/arm64-efi/ipxe.efi
-      - task: restart-tftpd

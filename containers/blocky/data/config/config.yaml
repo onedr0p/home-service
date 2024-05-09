@@ -25,10 +25,14 @@ blocking:
       timeout: 4m
   blackLists:
     ads:
-      - https://big.oisd.nl/domainswild
+      - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
       - |
         *.androidtvchannels-pa.googleapis.com
         *.androidtvwatsonfe-pa.googleapis.com
+    fakenews:
+      - https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-only/hosts
+    gambling:
+      - https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/gambling-only/hosts
   whiteLists:
     ads:
       - |
@@ -36,3 +40,5 @@ blocking:
   clientGroupsBlock:
     default:
       - ads
+      - fakenews
+      - gambling

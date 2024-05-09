@@ -1,8 +1,22 @@
-# home-dns
+# home-service
 
-My home DNS stack running on [Fedora IoT](https://fedoraproject.org/iot/) and managed by podman and systemd.
+My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-n100-clone-1) with [Fedora IoT](https://fedoraproject.org/iot/). These [podman](https://docs.podman.io/en/latest/markdown/podman-systemd.unit.5.html) services are supporting my home infrastructure including, DNS and Kubernetes clusters.
+
+## Core Components
+
+- [bind9](https://www.isc.org/bind/): Authoritative DNS server for my domains.
+- [blocky](https://github.com/0xERR0R/blocky): Fast and lightweight ad-blocker.
+- [dnsdist](https://dnsdist.org/): A DNS load balancer.
+- [matchbox](https://github.com/poseidon/matchbox): PXE boot bare-metal machines.
+- [node-exporter](https://github.com/prometheus/node_exporter): Exporter for machine metrics.
+- [1password-connect](https://github.com/1Password/connect): Access 1Password secrets.
+- [podman-exporter](https://github.com/containers/prometheus-podman-exporter): Prometheus exporter for podman.
+- [tftpd](https://linux.die.net/man/8/tftpd): A trivial file transfer protocol server.
 
 ## System configuration
+
+> [!IMPORTANT]
+> A non-root user must be created (if not already) and used.
 
 1. Install required system deps and reboot
 
@@ -16,16 +30,16 @@ My home DNS stack running on [Fedora IoT](https://fedoraproject.org/iot/) and ma
     ```sh
     export GITHUB_USER="onedr0p"
     curl https://github.com/$GITHUB_USER.keys > ~/.ssh/authorized_keys
-    sudo mkdir -p /var/opt/home-dns
-    sudo chown -R $(logname):$(logname) /var/opt/home-dns
-    cd /var/opt/home-dns
-    git clone git@github.com:$GITHUB_USER/home-dns.git .
+    sudo mkdir -p /var/opt/home-service
+    sudo chown -R $(logname):$(logname) /var/opt/home-service
+    cd /var/opt/home-service
+    git clone git@github.com:$GITHUB_USER/home-service.git .
     ```
 
 3. Install additional system deps and reboot
 
     ```sh
-    go-task deps
+    task deps
     sudo systemctl reboot
     ```
 
@@ -51,7 +65,7 @@ My home DNS stack running on [Fedora IoT](https://fedoraproject.org/iot/) and ma
 3. Update `./containers/bind/data/config` with your configuration and then start it
 
     ```sh
-    go-task start-bind
+    task start-bind
     ```
 
 ### blocky
@@ -62,7 +76,7 @@ My home DNS stack running on [Fedora IoT](https://fedoraproject.org/iot/) and ma
 1. Update `./containers/blocky/data/config/config.yaml` with your configuration and then start it
 
     ```sh
-    go-task start-blocky
+    task start-blocky
     ```
 
 ### dnsdist
@@ -79,7 +93,7 @@ My home DNS stack running on [Fedora IoT](https://fedoraproject.org/iot/) and ma
 1. Update `./containers/dnsdist/data/config/dnsdist.conf` with your configuration and then start it
 
     ```sh
-    go-task start-dnsdist
+    task start-dnsdist
     ```
 
 ### onepassword
@@ -89,8 +103,16 @@ My home DNS stack running on [Fedora IoT](https://fedoraproject.org/iot/) and ma
 2. Start `onepassword-connect` and `onepassword-sync`
 
     ```sh
-    go-task start-onepassword-connect
-    go-task start-onepassword-sync
+    task start-onepassword-connect
+    task start-onepassword-sync
+    ```
+
+### node-exporter
+
+1. Start `node-exporter`
+
+    ```sh
+    task start-node-exporter
     ```
 
 ### podman-exporter
@@ -104,15 +126,21 @@ My home DNS stack running on [Fedora IoT](https://fedoraproject.org/iot/) and ma
 2. Start `podman-exporter`
 
     ```sh
-    go-task start-podman-exporter
+    task start-podman-exporter
     ```
 
-### node-exporter
+### tftpd
 
-1. Start `node-exporter`
+1. Download the required tftpd / PXE files
 
     ```sh
-    go-task start-node-exporter
+    task tftpd:deps
+    ```
+
+2. Start `tftpd`
+
+    ```sh
+    task start-tftpd
     ```
 
 ## Testing DNS
