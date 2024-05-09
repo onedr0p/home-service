@@ -5,7 +5,7 @@ After=bind.service blocky.service
 
 [Container]
 ContainerName=dnsdist
-Image=docker.io/powerdns/dnsdist-19:1.9.3
+Image=docker.io/powerdns/dnsdist-19:1.9.3@sha256:bc81ab3e92f2e89cec64a601bdda3161204c709c15f4e45a898782ea68190315
 Environment=TZ=America/New_York
 Volume=./dnsdist/config/dnsdist.conf:/etc/dnsdist/dnsdist.conf:ro
 Network=host

@@ -3,7 +3,7 @@ Description=matchbox
 
 [Container]
 ContainerName=matchbox
-Image=quay.io/poseidon/matchbox:v0.11.0
+Image=quay.io/poseidon/matchbox:v0.11.0@sha256:06bcdae85335fd00e8277b007b55cfb49d96a0114628c0f70db2b92b079d246a
 Volume=./matchbox/config:/var/lib/matchbox
 Network=host
 Exec=-address=0.0.0.0:5050 -log-level=debug
