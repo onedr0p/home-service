@@ -210,6 +210,20 @@ end
 funcsave task
 ```
 
+### Setup direnv
+
+> [!NOTE]
+> _This is for only using the [fish shell](https://fishshell.com/)_
+
+```sh
+echo " \
+if type -q direnv
+    direnv hook fish | source
+end
+" > ~/.config/fish/conf.d/direnv.fish
+source ~/.config/fish/conf.d/direnv.fish
+```
+
 ### Tune selinux
 
 ```sh
