@@ -18,7 +18,7 @@ tasks:
   deps:
     desc: Install System Deps
     cmds:
-      - sudo rpm-ostree install --idempotent --assumeyes age bind-utils direnv git go-task htop nano net-tools netcat nmap moreutils rsync tcpdump telnet tree wget
+      - sudo rpm-ostree install --idempotent --assumeyes age bind-utils direnv git go-task htop nano net-tools netcat nmap moreutils rsync systemd-networkd tcpdump telnet tree wget
       - curl -sL -o /tmp/1password-cli-latest.x86_64.rpm https://downloads.1password.com/linux/rpm/stable/x86_64/1password-cli-latest.x86_64.rpm
       - sudo rpm-ostree install /tmp/1password-cli-latest.x86_64.rpm
       - rm -rf /tmp/1password-cli-latest.x86_64.rpm

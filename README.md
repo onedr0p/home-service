@@ -45,12 +45,62 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
     sudo systemctl reboot
     ```
 
+## Network configuration
+
+> [!NOTE]
+> _I am using [ipvlan](https://docs.docker.com/network/drivers/ipvlan) to expose containers on their own IP addresses on the same network as this here device. **Beware** of **IP addressing** and **interface names**._
+
+1. Create the podman `containernet` network
+
+    ```sh
+    sudo podman network create \
+        --driver=ipvlan \
+        --ipam-driver=host-local \
+        --subnet=192.168.1.0/24 \
+        --gateway=192.168.1.1 \
+        --ip-range=192.168.1.101-192.168.1.120 \
+        containernet
+    ```
+
+2. Setup the currently used interface with `systemd-networkd`
+
+    ```sh
+    sudo bash -c 'cat << EOF > /etc/systemd/network/enp1s0.network
+    [Match]
+    Name = enp1s0
+    [Network]
+    DHCP = yes
+    IPVLAN = containernet'
+    ```
+
+3. Setup `containernet` with `systemd-networkd`
+
+    ```sh
+    sudo bash -c 'cat << EOF > /etc/systemd/network/containernet.netdev
+    [NetDev]
+    Name = containernet
+    Kind = ipvlan'
+    sudo bash -c 'cat << EOF > /etc/systemd/network/containernet.network
+    [Match]
+    Name = containernet
+    [Network]
+    IPForward = yes
+    Address = 192.168.1.100/24'
+    ```
+
+5. Disable `networkmanager`, the enable and start `systemd-networkd`
+
+    ```sh
+    sudo systemctl disable --now networkmanager
+    sudo systemctl enable --now systemd-networkd
+    ```
+
 ## Container configuration
 
 ### bind
 
 > [!IMPORTANT]
-> **Do not** modify the key contents after it's creation, instead create a new key using `tsig-keygen`.
+> _**Do not** modify the key contents after it's creation, instead create a new key using `tsig-keygen`._
 
 1. Create the base rndc key
 
@@ -73,7 +123,7 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
 ### blocky
 
 > [!IMPORTANT]
-> Blocky can take awhile to start depending on how many blocklists you have configured
+> _Blocky can take awhile to start depending on how many blocklists you have configured_
 
 1. Update `./containers/blocky/data/config/config.yaml` with your configuration and then start it
 
@@ -84,7 +134,7 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
 ### dnsdist
 
 > [!IMPORTANT]
-> Prevent `systemd-resolved` from listening on port `53`
+> _Prevent `systemd-resolved` from listening on port `53`_
 > ```sh
 > sudo bash -c 'cat << EOF > /etc/systemd/resolved.conf.d/stub-listener.conf
 > [Resolve]
@@ -161,7 +211,7 @@ echo "blocky internal query";  dig +short @192.168.1.42 -p 5301 expanse.turbo.ac
 ### Alias go-task
 
 > [!NOTE]
-> This is for only using the [fish shell](https://fishshell.com/)
+> _This is for only using the [fish shell](https://fishshell.com/)_
 
 ```sh
 function task --wraps=go-task --description 'go-task shorthand'
@@ -179,7 +229,7 @@ sudo sed -i 's/SELINUX=enforcing/SELINUX=permissive/g' /etc/selinux/config
 ### Disable firewalld
 
 ```sh
-sudo systemctl mask firewalld.service
+sudo systemctl disable --now firewalld.service
 ```
 
 ## Related Projects
