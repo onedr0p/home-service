@@ -48,7 +48,7 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
 ## Network configuration
 
 > [!NOTE]
-> _I am using [ipvlan](https://docs.docker.com/network/drivers/ipvlan) to expose containers on their own IP addresses on the same network as this here device. **Beware** of **IP addressing** and **interface names**._
+> _I am using [ipvlan](https://docs.docker.com/network/drivers/ipvlan) to expose containers on their own IP addresses on the same network as this here device, the available addresses are mentioned in the `--ip-range` flag below. **Beware** of **IP addressing** and **interface names**._
 
 1. Create the podman `containernet` network
 
