@@ -94,8 +94,9 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
 5. Disable `networkmanager`, the enable and start `systemd-networkd`
 
     ```sh
-    sudo systemctl disable --now networkmanager
-    sudo systemctl enable --now systemd-networkd
+    sudo systemctl disable --now NetworkManager
+    sudo systemctl enable systemd-networkd
+    sudo systemctl start systemd-networkd
     ```
 
 ### Container configuration

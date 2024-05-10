@@ -44,6 +44,7 @@ op-connect-sync            IN  A      192.168.1.125
 traefik                    IN  A      192.168.1.126
 gatus                      IN  A      192.168.1.127
 matchbox                   IN  A      192.168.1.128
+smtp-relay                 IN  A      192.168.1.129
 
 ; CNAME records
 status                     IN  CNAME  traefik.turbo.ac.

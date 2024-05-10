@@ -3,7 +3,7 @@
 for file in containers/*/*.container; do
     ip=$(grep -oP '(?<=IP=).*' "$file")
     if [ -n "$ip" ]; then
-        echo "Container Name: $container_name"
+        echo "Container Name: $(basename ${file%%.*})"
         echo "IP: $ip"
         echo "-----------------------------"
     fi

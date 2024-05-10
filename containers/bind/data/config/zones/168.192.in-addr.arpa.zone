@@ -47,3 +47,4 @@ $ORIGIN in-addr.arpa.
 126.1.168.192              IN  PTR    traefik.turbo.ac.
 127.1.168.192              IN  PTR    gatus.turbo.ac.
 128.1.168.192              IN  PTR    matchbox.turbo.ac.
+129.1.168.192              IN  PTR    smtp-relay.turbo.ac.
