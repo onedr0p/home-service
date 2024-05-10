@@ -9,6 +9,9 @@ providers:
   file:
     filename: /etc/traefik/traefik.yaml
     watch: true
+  docker:
+    endpoint: unix:///var/run/docker.sock
+    exposedByDefault: false
 
 tls:
   options:
@@ -56,12 +59,3 @@ http:
       rule: Host(`traefik.turbo.ac`)
       entryPoints: ["web"]
       service: api@internal
-    gatus:
-      rule: Host(`status.turbo.ac`)
-      entryPoints: ["web"]
-      service: gatus
-  services:
-    gatus:
-      loadBalancer:
-        servers:
-          - url: http://192.168.1.107:80

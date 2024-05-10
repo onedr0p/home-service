@@ -160,6 +160,10 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
 
 1. Add your `./containers/op-connect-api/data/config/1password-credentials.sops.json` configuration and encrypted it with sops
 
+    ```sh
+    sops --encrypt --in-place ./containers/op-connect-api/data/config/1password-credentials.sops.json
+    ```
+
 2. Start `op-connect-api` and `op-connect-sync`
 
     ```sh

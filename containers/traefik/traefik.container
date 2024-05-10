@@ -7,9 +7,11 @@ Image=docker.io/library/traefik:v3.0.0@sha256:7996bdae8aaa70eaacf2978b6c949de5b6
 EnvironmentFile=./traefik/config/config.sops.env
 Volume=./traefik/config/traefik.yaml:/etc/traefik/traefik.yaml:ro
 Volume=./traefik/cache:/data
+Volume=/run/podman/podman.sock:/var/run/docker.sock:z
 Network=containernet
 IP=192.168.1.126
 AddCapability=NET_BIND_SERVICE
+SecurityLabelType=container_runtime_t
 
 [Service]
 Restart=always
