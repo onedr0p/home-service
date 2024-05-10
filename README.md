@@ -198,6 +198,12 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
 
 ## Optional configuration
 
+### Switch to Fish
+
+```sh
+chsh -s /usr/bin/fish
+```
+
 ### Alias go-task
 
 > [!NOTE]

@@ -23,6 +23,7 @@ on:
     branches: ["main"]
     paths:
       - .github/renovate-config.json5
+      - .github/renovate.json5
       - .github/renovate/**.json5
 
 concurrency:
