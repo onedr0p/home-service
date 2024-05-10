@@ -222,12 +222,17 @@ funcsave task
 > _This is for only using the [fish shell](https://fishshell.com/)_
 
 ```sh
-echo " \
+echo "\
 if type -q direnv
     direnv hook fish | source
 end
 " > ~/.config/fish/conf.d/direnv.fish
 source ~/.config/fish/conf.d/direnv.fish
+mkdir -p ~/.config/direnv
+echo "\
+[whitelist]
+prefix = [ \"/var/opt/home-service\" ]
+" > ~/.config/direnv/direnv.toml
 ```
 
 ### Tune selinux
