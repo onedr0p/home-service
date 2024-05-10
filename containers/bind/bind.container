@@ -8,7 +8,9 @@ Environment=TZ=America/New_York
 Environment=BIND9_USER=root
 Volume=./bind/cache:/var/cache/bind
 Volume=./bind/config:/etc/bind:ro
-Network=host
+Network=containernet
+IP=192.168.1.103
+AddCapability=NET_BIND_SERVICE
 
 [Service]
 Restart=always

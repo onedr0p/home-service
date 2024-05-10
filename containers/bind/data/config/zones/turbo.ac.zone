@@ -38,8 +38,12 @@ k8s-4                      IN  A      192.168.42.14
 k8s-5                      IN  A      192.168.42.15
 expanse                    IN  A      192.168.42.80
 
+; Containers
+op-connect-api             IN  A      192.168.1.104
+op-connect-sync            IN  A      192.168.1.105
+traefik                    IN  A      192.168.1.106
+gatus                      IN  A      192.168.1.107
+matchbox                   IN  A      192.168.1.108
+
 ; CNAME records
-gatus                      IN  CNAME  voyager.turbo.ac.
-matchbox                   IN  CNAME  voyager.turbo.ac.
-op-connect                 IN  CNAME  voyager.turbo.ac.
-traefik                    IN  CNAME  voyager.turbo.ac.
+status                     IN  CNAME  traefik.turbo.ac.

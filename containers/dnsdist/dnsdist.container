@@ -9,6 +9,8 @@ Image=docker.io/powerdns/dnsdist-19:1.9.3@sha256:bc81ab3e92f2e89cec64a601bdda316
 Environment=TZ=America/New_York
 Volume=./dnsdist/config/dnsdist.conf:/etc/dnsdist/dnsdist.conf:ro
 Network=host
+#Network=containernet
+#IP=192.168.1.101
 AddCapability=NET_BIND_SERVICE
 
 [Service]

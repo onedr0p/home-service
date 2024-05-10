@@ -4,16 +4,28 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
 
 ## Core Components
 
-- [1password-connect](https://github.com/1Password/connect): API server for 1Password that lets me integrate secrets into my infrastructure and Kubernetes clusters.
+- [1password-connect](https://github.com/1Password/connect): Integrate secrets into my infrastructure.
 - [bind9](https://www.isc.org/bind/): Authoritative DNS server for my domains.
 - [blocky](https://github.com/0xERR0R/blocky): Fast and lightweight ad-blocker.
 - [dnsdist](https://dnsdist.org/): A DNS load balancer.
+- [gatus](https://github.com/TwiN/gatus): Automated developer-oriented status page and alerts.
 - [matchbox](https://github.com/poseidon/matchbox): PXE boot bare-metal machines.
 - [node-exporter](https://github.com/prometheus/node_exporter): Exporter for machine metrics.
 - [podman-exporter](https://github.com/containers/prometheus-podman-exporter): Prometheus exporter for podman.
 - [sops](https://github.com/getsops/sops): Manage secrets which are commited to Git.
 - [tftpd](https://linux.die.net/man/8/tftpd): A trivial file transfer protocol server for use with PXE.
 - [traefik](https://github.com/traefik/traefik): Reverse proxy for L7 applications.
+
+## Network topology
+
+| Name | Subnet | DHCP range | ARP reserved |
+|------|--------|------------|--------------|
+| LAN | 192.168.1.0/24 | 150-254 | 100-120 |
+| TRUSTED | 192.168.10.0/24 | 150-254 | - |
+| SERVERS | 192.168.42.0/24 | 150-254 | 120-149 |
+| GUESTS | 192.168.50.0/24 | 150-254 | - |
+| IOT | 192.168.70.0/24 | 150-254 | - |
+| WIREGUARD | 192.168.80.0/28 | - | - |
 
 ## System configuration
 
@@ -194,17 +206,6 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
     ```sh
     task start-tftpd
     ```
-
-## Testing DNS
-
-```sh
-echo "dnsdist external query"; dig +short @192.168.1.42 -p 53 google.com | sed 's/^/  /'
-echo "dnsdist internal query"; dig +short @192.168.1.42 -p 53 expanse.turbo.ac | sed 's/^/  /'
-echo "bind external query";    dig +short @192.168.1.42 -p 5300 google.com | sed 's/^/  /'
-echo "bind internal query";    dig +short @192.168.1.42 -p 5300 expanse.turbo.ac | sed 's/^/  /'
-echo "blocky external query";  dig +short @192.168.1.42 -p 5301 google.com | sed 's/^/  /'
-echo "blocky internal query";  dig +short @192.168.1.42 -p 5301 expanse.turbo.ac | sed 's/^/  /'
-```
 
 ## Optional configuration
 

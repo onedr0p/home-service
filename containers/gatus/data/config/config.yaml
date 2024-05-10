@@ -25,35 +25,35 @@ endpoints:
   #
   - name: dnsdist-external
     group: DNS
-    url: 192.168.1.42:53
+    url: 192.168.1.101:53
     dns:
       query-name: google.com
       query-type: A
     conditions: ["[DNS_RCODE] == NOERROR"]
   - name: dnsdist-internal
     group: DNS
-    url: 192.168.1.42:53
+    url: 192.168.1.101:53
     dns:
       query-name: voyager.turbo.ac
       query-type: A
     conditions: ["[BODY] == 192.168.1.42", "[DNS_RCODE] == NOERROR"]
   - name: bind-internal
     group: DNS
-    url: 192.168.1.42:5300
+    url: 192.168.1.103:53
     dns:
       query-name: voyager.turbo.ac
       query-type: A
     conditions: ["[BODY] == 192.168.1.42", "[DNS_RCODE] == NOERROR"]
   - name: blocky-external
     group: DNS
-    url: 192.168.1.42:5301
+    url: 192.168.1.102:53
     dns:
       query-name: google.com
       query-type: A
     conditions: ["[DNS_RCODE] == NOERROR"]
   - name: blocky-internal
     group: DNS
-    url: 192.168.1.42:5301
+    url: 192.168.1.102:53
     dns:
       query-name: voyager.turbo.ac
       query-type: A
