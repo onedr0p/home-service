@@ -16,7 +16,9 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
 - [tftpd](https://linux.die.net/man/8/tftpd): A trivial file transfer protocol server for use with PXE.
 - [traefik](https://github.com/traefik/traefik): Reverse proxy for L7 applications.
 
-## System configuration
+## Setup
+
+### System configuration
 
 > [!IMPORTANT]
 > A non-root user must be created (if not already) and used.
@@ -46,7 +48,7 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
     sudo systemctl reboot
     ```
 
-## Network configuration
+### Network configuration
 
 > [!NOTE]
 > _I am using [ipvlan](https://docs.docker.com/network/drivers/ipvlan) to expose most containers on their own IP addresses on the same network as this here device, the available addresses are mentioned in the `--ip-range` flag below. **Beware** of **IP addressing** and **interface names**._
@@ -96,9 +98,9 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
     sudo systemctl enable --now systemd-networkd
     ```
 
-## Container configuration
+### Container configuration
 
-### bind
+#### bind
 
 > [!IMPORTANT]
 > _**Do not** modify the key contents after it's creation, instead create a new key using `tsig-keygen`._
@@ -121,7 +123,7 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
     task start-bind
     ```
 
-### blocky
+#### blocky
 
 > [!IMPORTANT]
 > _Blocky can take awhile to start depending on how many blocklists you have configured_
@@ -132,7 +134,7 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
     task start-blocky
     ```
 
-### dnsdist
+#### dnsdist
 
 > [!IMPORTANT]
 > _Prevent `systemd-resolved` from listening on port `53`_
@@ -149,7 +151,7 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
     task start-dnsdist
     ```
 
-### onepassword
+#### onepassword
 
 1. Add your `./containers/op-connect-api/data/config/1password-credentials.json` configuration
 
@@ -160,7 +162,7 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
     task start-op-connect-sync
     ```
 
-### node-exporter
+#### node-exporter
 
 1. Start `node-exporter`
 
@@ -168,7 +170,7 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
     task start-node-exporter
     ```
 
-### podman-exporter
+#### podman-exporter
 
 1. Enable the `podman.socket` service
 
@@ -182,7 +184,7 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
     task start-podman-exporter
     ```
 
-### tftpd
+#### tftpd
 
 1. Download the required tftpd / PXE files
 
@@ -196,15 +198,15 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
     task start-tftpd
     ```
 
-## Optional configuration
+### Optional configuration
 
-### Switch to Fish
+#### Switch to Fish
 
 ```sh
 chsh -s /usr/bin/fish
 ```
 
-### Alias go-task
+#### Alias go-task
 
 > [!NOTE]
 > _This is for only using the [fish shell](https://fishshell.com/)_
@@ -216,7 +218,7 @@ end
 funcsave task
 ```
 
-### Setup direnv
+#### Setup direnv
 
 > [!NOTE]
 > _This is for only using the [fish shell](https://fishshell.com/)_
@@ -228,6 +230,9 @@ if type -q direnv
 end
 " > ~/.config/fish/conf.d/direnv.fish
 source ~/.config/fish/conf.d/direnv.fish
+```
+
+```sh
 mkdir -p ~/.config/direnv
 echo "\
 [whitelist]
@@ -235,13 +240,13 @@ prefix = [ \"/var/opt/home-service\" ]
 " > ~/.config/direnv/direnv.toml
 ```
 
-### Tune selinux
+#### Tune selinux
 
 ```sh
 sudo sed -i 's/SELINUX=enforcing/SELINUX=permissive/g' /etc/selinux/config
 ```
 
-### Disable firewalld
+#### Disable firewalld
 
 ```sh
 sudo systemctl disable --now firewalld.service
