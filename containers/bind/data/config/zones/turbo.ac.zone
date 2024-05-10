@@ -47,4 +47,5 @@ matchbox                   IN  A      192.168.1.128
 smtp-relay                 IN  A      192.168.1.129
 
 ; CNAME records
+blocky                     IN  CNAME  traefik.turbo.ac.
 status                     IN  CNAME  traefik.turbo.ac.

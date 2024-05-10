@@ -11,6 +11,11 @@ Volume=./blocky/config/config.yaml:/app/config.yml:ro
 Network=containernet
 IP=192.168.1.122
 AddCapability=NET_BIND_SERVICE
+# Traefik
+Label=traefik.enable="true"
+Label=traefik.http.routers.blocky.rule=Host'(`blocky.turbo.ac`)'
+Label=traefik.http.routers.blocky.entrypoints="web"
+Label=traefik.http.services.blocky.loadbalancer.server.port="4000"
 
 [Service]
 Restart=always
