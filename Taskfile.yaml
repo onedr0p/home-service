@@ -72,13 +72,13 @@ tasks:
     desc: Reload a container
     cmds:
       - sudo rsync -rv {{.ROOT_DIR}}/containers/{{.container}}/{{.container}}.container /etc/containers/systemd/
-      - sudo rsync -rv --delete {{.ROOT_DIR}}/containers/{{.container}}/data/{{- if eq "no" .force }}config/{{ end }} /etc/containers/systemd/{{.container}}{{- if eq "no" .force }}/config{{ end }}
+      - sudo rsync -rv --mkpath --delete {{.ROOT_DIR}}/containers/{{.container}}/data/{{- if eq "no" .force }}config/{{ end }} /etc/containers/systemd/{{.container}}{{- if eq "no" .force }}/config{{ end }}
       - sudo --preserve-env bash -c "find /etc/containers/systemd/{{.container}}/config -type f -name "*.sops.*" -print0 | xargs -0 -I {} sops --config {{.ROOT_DIR}}/.sops.yaml --decrypt --in-place {}"
       - sudo systemctl daemon-reload
     # Faux idempotency ...
     sources:
-      - "{{.ROOT_DIR}}/containers/{{.container}}.container"
-      - "{{.ROOT_DIR}}/containers/{{.container}}/data/config/**/**"
+      - "{{.ROOT_DIR}}/containers/{{.container}}/**/**"
+      - excude: "{{.ROOT_DIR}}/containers/{{.container}}/data/cache/**/**"
     generates:
       - /etc/containers/systemd/{{.container}}.container
       - /etc/containers/systemd/{{.container}}/config/**/**

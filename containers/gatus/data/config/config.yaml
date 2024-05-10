@@ -1,0 +1,148 @@
+web:
+  port: 8083
+storage:
+  type: memory
+metrics: true
+ui:
+  title: Home Status | Gatus
+  header: Home Status
+alerting:
+  pushover:
+    application-token: ${GATUS_CUSTOM_PUSHOVER_APP_TOKEN}
+    user-key: ${GATUS_CUSTOM_PUSHOVER_USER_KEY}
+    default-alert:
+      description: healthcheck failed
+      send-on-resolved: false
+      failure-threshold: 3
+      success-threshold: 5
+connectivity:
+  checker:
+    target: 1.1.1.1:53
+    interval: 1m
+endpoints:
+  #
+  # DNS group
+  #
+  - name: dnsdist-external
+    group: DNS
+    url: 192.168.1.42:53
+    dns:
+      query-name: google.com
+      query-type: A
+    conditions: ["[DNS_RCODE] == NOERROR"]
+  - name: dnsdist-internal
+    group: DNS
+    url: 192.168.1.42:53
+    dns:
+      query-name: voyager.turbo.ac
+      query-type: A
+    conditions: ["[BODY] == 192.168.1.42", "[DNS_RCODE] == NOERROR"]
+  - name: bind-internal
+    group: DNS
+    url: 192.168.1.42:5300
+    dns:
+      query-name: voyager.turbo.ac
+      query-type: A
+    conditions: ["[BODY] == 192.168.1.42", "[DNS_RCODE] == NOERROR"]
+  - name: blocky-external
+    group: DNS
+    url: 192.168.1.42:5301
+    dns:
+      query-name: google.com
+      query-type: A
+    conditions: ["[DNS_RCODE] == NOERROR"]
+  - name: blocky-internal
+    group: DNS
+    url: 192.168.1.42:5301
+    dns:
+      query-name: voyager.turbo.ac
+      query-type: A
+    conditions: ["[DNS_RCODE] == NOERROR"]
+  #
+  # Devices group
+  #
+  - name: Unifi Dream Machine (ICMP)
+    group: Devices
+    url: icmp://192.168.1.1
+    conditions: ["[CONNECTED] == true"]
+    alerts: [{ type: pushover }]
+  - name: APC UPS (ICMP)
+    group: Devices
+    url: icmp://192.168.1.80
+    conditions: ["[CONNECTED] == true"]
+    alerts: [{ type: pushover }]
+  - name: Dell iDRAC 0 (ICMP)
+    group: Devices
+    url: icmp://192.168.1.82
+    conditions: ["[CONNECTED] == true"]
+    alerts: [{ type: pushover }]
+  - name: HDHomeRun (ICMP)
+    group: Devices
+    url: icmp://192.168.1.83
+    conditions: ["[CONNECTED] == true"]
+    alerts: [{ type: pushover }]
+  - name: Kubernetes Node 0 (ICMP)
+    group: Devices
+    url: icmp://192.168.42.10
+    conditions: ["[CONNECTED] == true"]
+    alerts: [{ type: pushover }]
+  - name: Kubernetes Node 1 (ICMP)
+    group: Devices
+    url: icmp://192.168.42.11
+    conditions: ["[CONNECTED] == true"]
+    alerts: [{ type: pushover }]
+  - name: Kubernetes Node 2 (ICMP)
+    group: Devices
+    url: icmp://192.168.42.12
+    conditions: ["[CONNECTED] == true"]
+    alerts: [{ type: pushover }]
+  - name: Kubernetes Node 3 (ICMP)
+    group: Devices
+    url: icmp://192.168.42.13
+    conditions: ["[CONNECTED] == true"]
+    alerts: [{ type: pushover }]
+  - name: Kubernetes Node 4 (ICMP)
+    group: Devices
+    url: icmp://192.168.42.14
+    conditions: ["[CONNECTED] == true"]
+    alerts: [{ type: pushover }]
+  - name: Kubernetes Node 5 (ICMP)
+    group: Devices
+    url: icmp://192.168.42.15
+    conditions: ["[CONNECTED] == true"]
+    alerts: [{ type: pushover }]
+  - name: TESmart KVM (ICMP)
+    group: Devices
+    url: icmp://192.168.1.10
+    conditions: ["[CONNECTED] == true"]
+    alerts: [{ type: pushover }]
+  - name: NAS (ICMP)
+    group: Devices
+    url: icmp://192.168.42.80
+    conditions: ["[CONNECTED] == true"]
+    alerts: [{ type: pushover }]
+  - name: Open Garage (ICMP)
+    group: Devices
+    url: icmp://192.168.10.20
+    conditions: ["[CONNECTED] == true"]
+    alerts: [{ type: pushover }]
+  - name: PiKVM (ICMP)
+    group: Devices
+    url: icmp://192.168.1.84
+    conditions: ["[CONNECTED] == true"]
+    alerts: [{ type: pushover }]
+  - name: Valetudo (ICMP)
+    url: icmp://192.168.10.21
+    group: Devices
+    conditions: ["[CONNECTED] == true"]
+    alerts: [{ type: pushover }]
+  - name: Zigbee Controller (ICMP)
+    group: Devices
+    url: icmp://192.168.1.90
+    conditions: ["[CONNECTED] == true"]
+    alerts: [{ type: pushover }]
+  - name: Zwave Controller (ICMP)
+    group: Devices
+    url: icmp://192.168.1.94
+    conditions: ["[CONNECTED] == true"]
+    alerts: [{ type: pushover }]
