@@ -100,6 +100,9 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
 
 ### Container configuration
 
+> [!TIP]
+> _To encrypt files with sops create an age key `age-keygen -o age.key` and then **replace** the **public key** in the `.sops.yaml` file. The format should look similar to the one already present._
+
 #### bind
 
 > [!IMPORTANT]
@@ -155,7 +158,7 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
 
 #### onepassword
 
-1. Add your `./containers/op-connect-api/data/config/1password-credentials.json` configuration
+1. Add your `./containers/op-connect-api/data/config/1password-credentials.sops.json` configuration and encrypted it with sops
 
 2. Start `op-connect-api` and `op-connect-sync`
 
