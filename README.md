@@ -16,17 +16,6 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
 - [tftpd](https://linux.die.net/man/8/tftpd): A trivial file transfer protocol server for use with PXE.
 - [traefik](https://github.com/traefik/traefik): Reverse proxy for L7 applications.
 
-## Network topology
-
-| Name | Subnet | DHCP range | ARP reserved |
-|------|--------|------------|--------------|
-| LAN | 192.168.1.0/24 | 150-254 | 100-120 |
-| TRUSTED | 192.168.10.0/24 | 150-254 | - |
-| SERVERS | 192.168.42.0/24 | 150-254 | 120-149 |
-| GUESTS | 192.168.50.0/24 | 150-254 | - |
-| IOT | 192.168.70.0/24 | 150-254 | - |
-| WIREGUARD | 192.168.80.0/28 | - | - |
-
 ## System configuration
 
 > [!IMPORTANT]
@@ -232,6 +221,17 @@ sudo sed -i 's/SELINUX=enforcing/SELINUX=permissive/g' /etc/selinux/config
 ```sh
 sudo systemctl disable --now firewalld.service
 ```
+
+## Network topology
+
+| Name | Subnet | DHCP range | ARP reserved |
+|------|--------|------------|--------------|
+| LAN | 192.168.1.0/24 | 150-254 | 100-120 |
+| TRUSTED | 192.168.10.0/24 | 150-254 | - |
+| SERVERS | 192.168.42.0/24 | 150-254 | 120-149 |
+| GUESTS | 192.168.50.0/24 | 150-254 | - |
+| IOT | 192.168.70.0/24 | 150-254 | - |
+| WIREGUARD | 192.168.80.0/28 | - | - |
 
 ## Related Projects
 
