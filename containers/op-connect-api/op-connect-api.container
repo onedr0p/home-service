@@ -10,7 +10,7 @@ Environment=XDG_DATA_HOME=/data
 Volume=./op-connect-api/config/1password-credentials.sops.json:/config/1password-credentials.json:ro
 Volume=./op-connect-api/cache:/data
 Network=containernet
-IP=192.168.1.104
+IP=192.168.1.124
 User=root
 AddCapability=NET_BIND_SERVICE
 

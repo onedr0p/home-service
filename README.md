@@ -61,7 +61,7 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
         --ipam-driver=host-local \
         --subnet=192.168.1.0/24 \
         --gateway=192.168.1.1 \
-        --ip-range=192.168.1.101-192.168.1.120 \
+        --ip-range=192.168.1.121-192.168.1.149 \
         containernet
     ```
 
@@ -88,7 +88,7 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
     Name = containernet
     [Network]
     IPForward = yes
-    Address = 192.168.1.100/24'
+    Address = 192.168.1.120/24'
     ```
 
 5. Disable `networkmanager`, the enable and start `systemd-networkd`
@@ -105,16 +105,18 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
 > [!IMPORTANT]
 > _**Do not** modify the key contents after it's creation, instead create a new key using `tsig-keygen`._
 
-1. Create the base rndc key
+1. Create the base rndc key and encrypt it with sops
 
     ```sh
-    tsig-keygen -a hmac-sha256 rndc-key > ./containers/bind/data/config/rndc.key
+    tsig-keygen -a hmac-sha256 rndc-key > ./containers/bind/data/config/rndc.sops.key
+    sops --encrypt --in-place ./containers/bind/data/config/rndc.sops.key
     ```
 
-2. Create additional rndc keys for external-dns
+2. Create additional rndc keys for external-dns and encrypt them with sops
 
     ```sh
-    tsig-keygen -a hmac-sha256 kubernetes-main-key > ./containers/bind/data/config/kubernetes-main.key
+    tsig-keygen -a hmac-sha256 kubernetes-main-key > ./containers/bind/data/config/kubernetes-main.sops.key
+    sops --encrypt --in-place ./containers/bind/data/config/kubernetes-main.sops.key
     ```
 
 3. Update `./containers/bind/data/config` with your configuration and then start it
@@ -200,16 +202,16 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
 
 ### Optional configuration
 
-#### Switch to Fish
+#### Switch to Fish Shell
+
+> [!TIP]
+> _[fish shell](https://fishshell.com/) is awesome, you **should** use fish 🐟._
 
 ```sh
 chsh -s /usr/bin/fish
 ```
 
-#### Alias go-task
-
-> [!NOTE]
-> _This is for only using the [fish shell](https://fishshell.com/)_
+#### Alias go-task with Fish
 
 ```sh
 function task --wraps=go-task --description 'go-task shorthand'
@@ -218,10 +220,7 @@ end
 funcsave task
 ```
 
-#### Setup direnv
-
-> [!NOTE]
-> _This is for only using the [fish shell](https://fishshell.com/)_
+#### Setup direnv with Fish
 
 ```sh
 echo "\
@@ -256,7 +255,7 @@ sudo systemctl disable --now firewalld.service
 
 | Name | Subnet | DHCP range | ARP reserved |
 |------|--------|------------|--------------|
-| LAN | 192.168.1.0/24 | 150-254 | 100-120 |
+| LAN | 192.168.1.0/24 | 150-254 | 120-149 |
 | TRUSTED | 192.168.10.0/24 | 150-254 | - |
 | SERVERS | 192.168.42.0/24 | 150-254 | 120-149 |
 | GUESTS | 192.168.50.0/24 | 150-254 | - |
@@ -266,3 +265,4 @@ sudo systemctl disable --now firewalld.service
 ## Related Projects
 
 - [bjw-s/nix-config](https://github.com/bjw-s/nix-config/): NixOS driven configuration for running a home service machine, a nas or [nix-darwin](https://github.com/LnL7/nix-darwin) using [deploy-rs](https://github.com/serokell/deploy-rs) and [home-manager](https://github.com/nix-community/home-manager).
+- [truxnell/nix-config](https://github.com/truxnell/nix-config): NixOS driven configuration for running your entire homelab.

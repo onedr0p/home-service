@@ -70,9 +70,10 @@ tasks:
 
   .reload:
     desc: Reload a container
+    internal: true
     cmds:
       - sudo rsync -rv {{.ROOT_DIR}}/containers/{{.container}}/{{.container}}.container /etc/containers/systemd/
-      - sudo rsync -rv --mkpath --delete {{.ROOT_DIR}}/containers/{{.container}}/data/{{- if eq "no" .force }}config/{{ end }} /etc/containers/systemd/{{.container}}{{- if eq "no" .force }}/config{{ end }}
+      - sudo rsync -rv --mkpath --delete {{.ROOT_DIR}}/containers/{{.container}}/data/{{- if eq .CLI_FORCE false }}config/{{ end }} /etc/containers/systemd/{{.container}}{{- if eq .CLI_FORCE false }}/config{{ end }}
       - sudo --preserve-env bash -c "find /etc/containers/systemd/{{.container}}/config -type f -name "*.sops.*" -print0 | xargs -0 -I {} sops --config {{.ROOT_DIR}}/.sops.yaml --decrypt --in-place {}"
       - sudo systemctl daemon-reload
     # Faux idempotency ...
@@ -84,6 +85,8 @@ tasks:
       - /etc/containers/systemd/{{.container}}/config/**/**
       - /run/systemd/generator/{{.container}}.service
     label: reload-{{.container}}
+    preconditions:
+      - test -f {{.ROOT_DIR}}/containers/{{.container}}/{{.container}}.container
+      - test -d {{.ROOT_DIR}}/containers/{{.container}}/data
     requires:
-      vars: ["container", "force"]
-    internal: true
+      vars: ["container"]

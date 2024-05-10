@@ -42,8 +42,8 @@ $ORIGIN in-addr.arpa.
 80.42.168.192              IN  PTR    expanse.turbo.ac.
 
 ; Containers
-104.1.168.192              IN  PTR    op-connect-api.turbo.ac.
-105.1.168.192              IN  PTR    op-connect-sync.turbo.ac.
-106.1.168.192              IN  PTR    traefik.turbo.ac.
-107.1.168.192              IN  PTR    gatus.turbo.ac.
-108.1.168.192              IN  PTR    matchbox.turbo.ac.
+124.1.168.192              IN  PTR    op-connect-api.turbo.ac.
+125.1.168.192              IN  PTR    op-connect-sync.turbo.ac.
+126.1.168.192              IN  PTR    traefik.turbo.ac.
+127.1.168.192              IN  PTR    gatus.turbo.ac.
+128.1.168.192              IN  PTR    matchbox.turbo.ac.
