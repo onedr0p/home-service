@@ -5,8 +5,8 @@ Description=node-exporter
 ContainerName=node-exporter
 Image=quay.io/prometheus/node-exporter:v1.8.0@sha256:8a57af80a4c77ffb97749b44895248563616fcfd405b5370d5db35fe6c15e4ec
 Volume=/:/host:ro,rslave
-Network=host
 Exec=--path.rootfs=/host
+Network=host
 
 [Service]
 Restart=always

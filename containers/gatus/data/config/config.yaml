@@ -1,5 +1,5 @@
 web:
-  port: 8083
+  port: 80
 storage:
   type: memory
 metrics: true

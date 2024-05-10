@@ -57,27 +57,11 @@ http:
       entryPoints: ["web"]
       service: api@internal
     gatus:
-      rule: Host(`gatus.turbo.ac`)
+      rule: Host(`status.turbo.ac`)
       entryPoints: ["web"]
       service: gatus
-    matchbox:
-      rule: Host(`matchbox.turbo.ac`)
-      entryPoints: ["web"]
-      service: matchbox
-    op-connect:
-      rule: Host(`op-connect.turbo.ac`)
-      entryPoints: ["web"]
-      service: op-connect
   services:
     gatus:
       loadBalancer:
         servers:
-          - url: http://192.168.1.42:8083
-    matchbox:
-      loadBalancer:
-        servers:
-          - url: http://192.168.1.42:5050
-    op-connect:
-      loadBalancer:
-        servers:
-          - url: http://192.168.1.42:8081
+          - url: http://192.168.1.107:80
