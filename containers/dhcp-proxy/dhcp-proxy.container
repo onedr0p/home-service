@@ -1,0 +1,34 @@
+[Unit]
+Description=dhcp-proxy
+
+[Container]
+ContainerName=dhcp-proxy
+Image=quay.io/poseidon/dnsmasq:v0.5.0-31-gdc1adc8@sha256:6a839fde323fb405f6be84003a6b9019d9151caa983bfdcbc8cc1b51b1f8627d
+Exec=-d -q \
+  --port=0 \
+  --dhcp-range=192.168.1.42,proxy \
+  --enable-tftp \
+  --tftp-root=/var/lib/tftpboot \
+  --dhcp-match=set:bios,option:client-arch,0 \
+  --dhcp-boot=tag:bios,undionly.kpxe \
+  --dhcp-match=set:efi32,option:client-arch,6 \
+  --dhcp-boot=tag:efi32,ipxe.efi \
+  --dhcp-match=set:efibc,option:client-arch,7 \
+  --dhcp-boot=tag:efibc,ipxe.efi \
+  --dhcp-match=set:efi64,option:client-arch,9 \
+  --dhcp-boot=tag:efi64,ipxe.efi \
+  --dhcp-userclass=set:ipxe,iPXE \
+  --dhcp-boot=tag:ipxe,http://192.168.1.128/boot.ipxe \
+  --log-queries \
+  --log-dhcp
+Network=host
+AddCapability=NET_BIND_SERVICE
+AddCapability=NET_ADMIN
+AddCapability=NET_RAW
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=multi-user.target default.target

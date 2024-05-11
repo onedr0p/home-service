@@ -1,20 +1,13 @@
 # home-service
 
-My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-n100-clone-1) with [Fedora IoT](https://fedoraproject.org/iot/). These [podman](https://docs.podman.io/en/latest/markdown/podman-systemd.unit.5.html) services are supporting my home infrastructure including, DNS and Kubernetes clusters.
+My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-n100-clone-1) with [Fedora IoT](https://fedoraproject.org/iot/). Applications are run as [podman](https://github.com/containers/podman) containers and managed by systemd to support my home infrastructure.
 
-## Core Components
+## Core components
 
-- [1password-connect](https://github.com/1Password/connect): Integrate secrets into my infrastructure.
-- [bind9](https://www.isc.org/bind/): Authoritative DNS server for my domains.
-- [blocky](https://github.com/0xERR0R/blocky): Fast and lightweight ad-blocker.
-- [dnsdist](https://dnsdist.org/): A DNS load balancer.
-- [gatus](https://github.com/TwiN/gatus): Automated developer-oriented status page and alerts.
-- [matchbox](https://github.com/poseidon/matchbox): PXE boot bare-metal machines.
-- [node-exporter](https://github.com/prometheus/node_exporter): Exporter for machine metrics.
-- [podman-exporter](https://github.com/containers/prometheus-podman-exporter): Prometheus exporter for podman.
-- [sops](https://github.com/getsops/sops): Manage secrets which are commited to Git.
-- [tftpd](https://linux.die.net/man/8/tftpd): A trivial file transfer protocol server for use with PXE.
-- [traefik](https://github.com/traefik/traefik): Reverse proxy for L7 applications.
+- [direnv](https://github.com/direnv/direnv): Update environment per working directory.
+- [podman](https://github.com/containers/podman): A tool for managing OCI containers and pods with native [systemd](https://docs.podman.io/en/latest/markdown/podman-systemd.unit.5.html) integration.
+- [sops](https://github.com/getsops/sops): Manage secrets which are commited to Git using [Age](https://github.com/FiloSottile/age) for encryption.
+- [task](https://github.com/go-task/task): A task runner / simpler Make alternative written in Go.
 
 ## Setup
 
@@ -35,17 +28,22 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
     ```sh
     export GITHUB_USER="onedr0p"
     curl https://github.com/$GITHUB_USER.keys > ~/.ssh/authorized_keys
-    sudo mkdir -p /var/opt/home-service
+    sudo git clone git@github.com:$GITHUB_USER/home-service.git /var/opt
     sudo chown -R $(logname):$(logname) /var/opt/home-service
-    cd /var/opt/home-service
-    git clone git@github.com:$GITHUB_USER/home-service.git .
     ```
 
 3. Install additional system deps and reboot
+s
+    ```sh
+    cd /var/opt/home-service
+    go-task deps
+    sudo systemctl reboot
+    ```
+
+4. Create an Age public/private key pair for use with sops
 
     ```sh
-    task deps
-    sudo systemctl reboot
+    age-keygen -o /var/opt/home-service/age.key
     ```
 
 ### Network configuration
@@ -102,111 +100,15 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
 ### Container configuration
 
 > [!TIP]
-> _To encrypt files with sops create an age key `age-keygen -o age.key` and then **replace** the **public key** in the `.sops.yaml` file. The format should look similar to the one already present._
+> _To encrypt files with sops **replace** the **public key** in the `.sops.yaml` file with **your Age public key**. The format should look similar to the one already present._
 
-#### bind
+View the individual app folders under [containers](./containers) for documentation on configuring an app container used here, or setup your own by reviewing the structure of this directory.
 
-> [!IMPORTANT]
-> _**Do not** modify the key contents after it's creation, instead create a new key using `tsig-keygen`._
+Using the included [Taskfile](./Taskfile.yaml) there are helper commands to start, stop, restart containers and more. Run the command below to view all available tasks.
 
-1. Create the base rndc key and encrypt it with sops
-
-    ```sh
-    tsig-keygen -a hmac-sha256 rndc-key > ./containers/bind/data/config/rndc.sops.key
-    sops --encrypt --in-place ./containers/bind/data/config/rndc.sops.key
-    ```
-
-2. Create additional rndc keys for external-dns and encrypt them with sops
-
-    ```sh
-    tsig-keygen -a hmac-sha256 kubernetes-main-key > ./containers/bind/data/config/kubernetes-main.sops.key
-    sops --encrypt --in-place ./containers/bind/data/config/kubernetes-main.sops.key
-    ```
-
-3. Update `./containers/bind/data/config` with your configuration and then start it
-
-    ```sh
-    task start-bind
-    ```
-
-#### blocky
-
-> [!IMPORTANT]
-> _Blocky can take awhile to start depending on how many blocklists you have configured_
-
-1. Update `./containers/blocky/data/config/config.yaml` with your configuration and then start it
-
-    ```sh
-    task start-blocky
-    ```
-
-#### dnsdist
-
-> [!IMPORTANT]
-> _Prevent `systemd-resolved` from listening on port `53`_
-> ```sh
-> sudo bash -c 'cat << EOF > /etc/systemd/resolved.conf.d/stub-listener.conf
-> [Resolve]
-> DNSStubListener=no'
-> sudo systemctl restart systemd-resolved
-> ```
-
-1. Update `./containers/dnsdist/data/config/dnsdist.conf` with your configuration and then start it
-
-    ```sh
-    task start-dnsdist
-    ```
-
-#### onepassword
-
-1. Add your `./containers/op-connect-api/data/config/1password-credentials.sops.json` configuration and encrypted it with sops
-
-    ```sh
-    sops --encrypt --in-place ./containers/op-connect-api/data/config/1password-credentials.sops.json
-    ```
-
-2. Start `op-connect-api` and `op-connect-sync`
-
-    ```sh
-    task start-op-connect-api
-    task start-op-connect-sync
-    ```
-
-#### node-exporter
-
-1. Start `node-exporter`
-
-    ```sh
-    task start-node-exporter
-    ```
-
-#### podman-exporter
-
-1. Enable the `podman.socket` service
-
-    ```sh
-    sudo systemctl enable --now podman.socket
-    ```
-
-2. Start `podman-exporter`
-
-    ```sh
-    task start-podman-exporter
-    ```
-
-#### tftpd
-
-1. Download the required tftpd / PXE files
-
-    ```sh
-    task tftpd:deps
-    ```
-
-2. Start `tftpd`
-
-    ```sh
-    task start-tftpd
-    ```
+```sh
+go-task --list
+```
 
 ### Optional configuration
 
@@ -219,7 +121,7 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
 chsh -s /usr/bin/fish
 ```
 
-#### Alias go-task with Fish
+#### Alias go-task to task with Fish
 
 ```sh
 function task --wraps=go-task --description 'go-task shorthand'
