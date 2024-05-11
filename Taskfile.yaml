@@ -28,14 +28,10 @@ tasks:
   start-*:
     desc: Start a container service
     cmds:
-      - task: .reload
-        vars:
-          container: '{{.container}}'
-          force: '{{.force}}'
+      - task: reload-{{.container}}
       - sudo systemctl start {{.container}}
     vars:
       container: '{{index .MATCH 0}}'
-      force: '{{.force | default "no"}}'
 
   stop-*:
     desc: Stop a container service
@@ -46,14 +42,10 @@ tasks:
   restart-*:
     desc: Restart a container service
     cmds:
-      - task: .reload
-        vars:
-          container: '{{.container}}'
-          force: '{{.force}}'
+      - task: reload-{{.container}}
       - sudo systemctl restart {{.container}}
     vars:
       container: '{{index .MATCH 0}}'
-      force: '{{.force | default "no"}}'
 
   status-*:
     desc: Status of a container service
@@ -61,15 +53,8 @@ tasks:
     vars:
       container: '{{index .MATCH 0}}'
 
-  logs-*:
-    desc: Tail logs of a container
-    cmd: sudo podman logs -f {{.container}}
-    vars:
-      container: '{{index .MATCH 0}}'
-
-  .reload:
-    desc: Reload a container
-    internal: true
+  reload-*:
+    desc: Reload a container service
     cmds:
       - sudo rsync -rv {{.ROOT_DIR}}/containers/{{.container}}/{{.container}}.container /etc/containers/systemd/
       - sudo rsync -rv --mkpath --delete {{.ROOT_DIR}}/containers/{{.container}}/data/{{- if eq .CLI_FORCE false }}config/{{ end }} /etc/containers/systemd/{{.container}}{{- if eq .CLI_FORCE false }}/config{{ end }}
@@ -86,5 +71,11 @@ tasks:
     preconditions:
       - test -f {{.ROOT_DIR}}/containers/{{.container}}/{{.container}}.container
       - test -d {{.ROOT_DIR}}/containers/{{.container}}/data
-    requires:
-      vars: ["container"]
+    vars:
+      container: '{{index .MATCH 0}}'
+
+  logs-*:
+    desc: Tail logs of a container
+    cmd: sudo podman logs -f {{.container}}
+    vars:
+      container: '{{index .MATCH 0}}'

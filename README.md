@@ -6,6 +6,7 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
 
 - [direnv](https://github.com/direnv/direnv): Update environment per working directory.
 - [podman](https://github.com/containers/podman): A tool for managing OCI containers and pods with native [systemd](https://docs.podman.io/en/latest/markdown/podman-systemd.unit.5.html) integration.
+- [renovate](https://github.com/renovatebot/renovate): Universal dependency automation tool.
 - [sops](https://github.com/getsops/sops): Manage secrets which are commited to Git using [Age](https://github.com/FiloSottile/age) for encryption.
 - [task](https://github.com/go-task/task): A task runner / simpler Make alternative written in Go.
 
