@@ -72,6 +72,7 @@ s
     Name = enp1s0
     [Network]
     DHCP = yes
+    DNS = 1.1.1.1
     IPVLAN = containernet'
     ```
 
