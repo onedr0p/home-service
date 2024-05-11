@@ -29,12 +29,12 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
     ```sh
     export GITHUB_USER="onedr0p"
     curl https://github.com/$GITHUB_USER.keys > ~/.ssh/authorized_keys
-    sudo git clone git@github.com:$GITHUB_USER/home-service.git /var/opt
-    sudo chown -R $(logname):$(logname) /var/opt/home-service
+    sudo install -d -o $(logname) -g $(logname) -m 755 /var/opt/home-service
+    git clone git@github.com:$GITHUB_USER/home-service.git /var/opt/home-service/.
     ```
 
 3. Install additional system deps and reboot
-s
+
     ```sh
     cd /var/opt/home-service
     go-task deps
