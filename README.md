@@ -66,14 +66,18 @@ s
 
 2. Setup the currently used interface with `systemd-networkd`
 
+    📍 _Set the DNS server to `1.1.1.1` until dnsdist is deployed._
+
     ```sh
     sudo bash -c 'cat << EOF > /etc/systemd/network/enp1s0.network
     [Match]
     Name = enp1s0
     [Network]
     DHCP = yes
-    DNS = 1.1.1.1
-    IPVLAN = containernet'
+    DNS = 192.168.1.121
+    IPVLAN = containernet
+    [DHCPv4]
+    UseDNS = false'
     ```
 
 3. Setup `containernet` with `systemd-networkd`
