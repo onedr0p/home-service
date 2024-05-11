@@ -3,7 +3,7 @@
 version: "3"
 
 env:
-  SOPS_AGE_KEY_FILE: "{{.ROOT_DIR}}/age.key"
+  SOPS_AGE_KEY_FILE: '{{.ROOT_DIR}}/age.key'
 
 vars:
   # renovate: datasource=github-releases depName=getsops/sops
@@ -38,6 +38,9 @@ tasks:
     cmd: sudo systemctl stop {{.container}}
     vars:
       container: '{{index .MATCH 0}}'
+    preconditions:
+      - msg: container systemd service '{{.container}}' not found
+        sh: systemctl status {{.container}}
 
   restart-*:
     desc: Restart a container service
@@ -46,12 +49,18 @@ tasks:
       - sudo systemctl restart {{.container}}
     vars:
       container: '{{index .MATCH 0}}'
+    preconditions:
+      - msg: container systemd service '{{.container}}' not found
+        sh: systemctl status {{.container}}
 
   status-*:
     desc: Status of a container service
     cmd: sudo systemctl status {{.container}}
     vars:
       container: '{{index .MATCH 0}}'
+    preconditions:
+      - msg: container systemd service '{{.container}}' not found
+        sh: systemctl status {{.container}}
 
   reload-*:
     desc: Reload a container service
@@ -69,8 +78,22 @@ tasks:
       - /run/systemd/generator/{{.container}}.service
     label: reload-{{.container}}
     preconditions:
-      - test -f {{.ROOT_DIR}}/containers/{{.container}}/{{.container}}.container
-      - test -d {{.ROOT_DIR}}/containers/{{.container}}/data
+      - msg: file 'containers/{{.container}}/{{.container}}.container' not found
+        sh: test -f {{.ROOT_DIR}}/containers/{{.container}}/{{.container}}.container
+      - msg: directory 'containers/{{.container}}/data' not found
+        sh: test -d {{.ROOT_DIR}}/containers/{{.container}}/data
+    vars:
+      container: '{{index .MATCH 0}}'
+
+  remove-*:
+    desc: Remove a container service
+    prompt: Remove the '{{.container}}' container ... continue?
+    cmds:
+      - task: stop-{{.container}}
+      - sudo rm /etc/containers/systemd/{{.container}}.container
+      - sudo rm -rf /etc/containers/systemd/{{.container}}
+      - sudo rm -rf /run/systemd/generator/{{.container}}.service
+      - sudo systemctl daemon-reload
     vars:
       container: '{{index .MATCH 0}}'
 
@@ -79,3 +102,6 @@ tasks:
     cmd: sudo podman logs -f {{.container}}
     vars:
       container: '{{index .MATCH 0}}'
+    preconditions:
+      - msg: container '{{.container}}' not found
+        sh: sudo podman inspect {{.container}}
