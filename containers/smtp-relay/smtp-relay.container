@@ -3,7 +3,7 @@ Description=smtp-relay
 
 [Container]
 ContainerName=smtp-relay
-Image=ghcr.io/foxcpp/maddy:0.7.1@sha256:6ab538e2f28baf2324f7cb418c7f9476fd9c7e9fa9b14bc3aecf51a9f6962064
+Image=ghcr.io/foxcpp/maddy:0.7.1
 EnvironmentFile=./smtp-relay/config/config.sops.env
 Environment=SMTP_RELAY_SMTP_PORT=25
 Environment=SMTP_RELAY_METRICS_PORT=8080

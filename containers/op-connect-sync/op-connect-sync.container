@@ -5,7 +5,7 @@ After=op-connect-api.service
 
 [Container]
 ContainerName=op-connect-sync
-Image=docker.io/1password/connect-sync:1.7.2@sha256:fe527ed9d81f193d8dfbba4140d61f9e8c8dceb0966b3009259087504e5ff79c
+Image=docker.io/1password/connect-sync:1.7.2
 Environment=OP_HTTP_PORT=80
 Environment=OP_SESSION=/config/1password-credentials.json
 Environment=XDG_DATA_HOME=/data

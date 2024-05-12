@@ -3,7 +3,7 @@ Description=dhcp-proxy
 
 [Container]
 ContainerName=dhcp-proxy
-Image=quay.io/poseidon/dnsmasq:v0.5.0-31-gdc1adc8@sha256:6a839fde323fb405f6be84003a6b9019d9151caa983bfdcbc8cc1b51b1f8627d
+Image=quay.io/poseidon/dnsmasq:v0.5.0-31-gdc1adc8
 Exec=-d -q \
   --port=0 \
   --dhcp-range=192.168.1.1,proxy,255.255.255.0 \

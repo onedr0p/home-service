@@ -3,7 +3,7 @@ Description=op-connect-api
 
 [Container]
 ContainerName=op-connect-api
-Image=docker.io/1password/connect-api:1.7.2@sha256:6aa94cf713f99c0fa58c12ffdd1b160404b4c13a7f501a73a791aa84b608c5a1
+Image=docker.io/1password/connect-api:1.7.2
 Environment=OP_HTTP_PORT=80
 Environment=OP_SESSION=/config/1password-credentials.json
 Environment=XDG_DATA_HOME=/data

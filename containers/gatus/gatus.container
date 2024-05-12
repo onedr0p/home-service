@@ -3,7 +3,7 @@ Description=gatus
 
 [Container]
 ContainerName=gatus
-Image=ghcr.io/twin/gatus:v5.10.0@sha256:658a9cb993ff0b16832947dab8de885b2e2a66037330b839310fa3f39d5c00f4
+Image=ghcr.io/twin/gatus:v5.10.0
 EnvironmentFile=./gatus/config/config.sops.env
 Volume=./gatus/config/config.yaml:/config/config.yaml:ro
 Network=containernet

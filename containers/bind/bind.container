@@ -3,7 +3,7 @@ Description=bind
 
 [Container]
 ContainerName=bind
-Image=docker.io/ubuntu/bind9:9.18-22.04_beta@sha256:1dc6d428e149fcba4a43894e15f229c65c34180ab7c7010e94667ea46877f5ea
+Image=docker.io/ubuntu/bind9:9.18-22.04_beta
 Environment=TZ=America/New_York
 Environment=BIND9_USER=root
 Volume=./bind/cache:/var/cache/bind
