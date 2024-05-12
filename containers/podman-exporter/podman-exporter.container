@@ -5,7 +5,7 @@ After=podman.socket
 
 [Container]
 ContainerName=podman-exporter
-Image=quay.io/navidys/prometheus-podman-exporter:v1.11.0
+Image=quay.io/navidys/prometheus-podman-exporter:v1.11.1
 Environment=CONTAINER_HOST=unix:///run/podman/podman.sock
 Volume=/run/podman/podman.sock:/run/podman/podman.sock
 Exec=--collector.enhance-metrics
