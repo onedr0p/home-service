@@ -1,0 +1,43 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: "3"
+
+tasks:
+
+  deps:
+    desc: Install fish dotfiles
+    cmds:
+      - # Hooks
+        |
+        tee /home/$LOGNAME/.config/fish/conf.d/hooks.fish > /dev/null <<EOF
+        if status is-interactive
+            direnv hook fish | source
+        end
+        EOF
+      - # Aliases
+        |
+        tee /home/$LOGNAME/.config/fish/conf.d/aliases.fish > /dev/null <<EOF
+        alias task go-task
+        EOF
+      - # Greeting
+        |
+        tee /home/$LOGNAME/.config/fish/conf.d/fish_greeting.fish > /dev/null <<EOF
+        function fish_greeting
+            fastfetch
+        end
+        EOF
+      - # Completions
+        |
+        curl -fsSL -o /home/$LOGNAME/.config/fish/completions/task.fish \
+            https://raw.githubusercontent.com/go-task/task/main/completion/fish/task.fish
+      - # Direnv
+        |
+        mkdir -p /home/$LOGNAME/.config/direnv && \
+        tee /home/$LOGNAME/.config/direnv/direnv.toml > /dev/null <<EOF
+        [whitelist]
+        prefix = [ "/var/opt/home-service" ]
+        EOF
+    preconditions:
+      - msg: must not be run as root
+        sh: '[[ $LOGNAME != "root" ]]'
+    silent: true

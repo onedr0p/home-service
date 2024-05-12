@@ -118,41 +118,15 @@ go-task --list
 
 ### Optional configuration
 
-#### Switch to Fish Shell
+#### Fish Shell
 
 > [!TIP]
-> _[fish shell](https://fishshell.com/) is awesome, you **should** use fish 🐟._
+> _[fish shell](https://fishshell.com/) is awesome, you should try fish 🐟._
+> _After running the commands below logout and login again._
 
 ```sh
 chsh -s /usr/bin/fish
-```
-
-#### Alias go-task to task with Fish
-
-```sh
-function task --wraps=go-task --description 'go-task shorthand'
-    go-task $argv
-end
-funcsave task
-```
-
-#### Setup direnv with Fish
-
-```sh
-echo "\
-if type -q direnv
-    direnv hook fish | source
-end
-" > ~/.config/fish/conf.d/direnv.fish
-source ~/.config/fish/conf.d/direnv.fish
-```
-
-```sh
-mkdir -p ~/.config/direnv
-echo "\
-[whitelist]
-prefix = [ \"/var/opt/home-service\" ]
-" > ~/.config/direnv/direnv.toml
+go-task fish:deps
 ```
 
 #### Tune selinux
