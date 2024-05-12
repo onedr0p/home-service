@@ -66,7 +66,7 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
 
 2. Setup the currently used interface with `systemd-networkd`
 
-    📍 _Set the DNS server to `1.1.1.1` until dnsdist is deployed._
+    📍 _Setting the DNS server to `dnsdist` might make dragons appear 🐉._
 
     ```sh
     sudo bash -c 'cat << EOF > /etc/systemd/network/enp1s0.network
@@ -74,7 +74,8 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
     Name = enp1s0
     [Network]
     DHCP = yes
-    DNS = 192.168.1.121
+    DNS = 1.1.1.1
+    DNS = 1.0.0.1
     IPVLAN = containernet
     [DHCPv4]
     UseDNS = false'
