@@ -71,8 +71,8 @@ tasks:
       - sudo --preserve-env bash -c "find /etc/containers/systemd/{{.container}}/config -type f -name "*.sops.*" -print0 | xargs -0 -I {} sops --config {{.ROOT_DIR}}/.sops.yaml --decrypt --in-place {}"
       - sudo systemctl daemon-reload
     sources:
-      - "{{.ROOT_DIR}}/containers/{{.container}}/**/**"
-      - excude: "{{.ROOT_DIR}}/containers/{{.container}}/data/cache/**/**"
+      - "{{.ROOT_DIR}}/containers/{{.container}}/{{.container}}.container"
+      - "{{.ROOT_DIR}}/containers/{{.container}}/data/config/**/**"
     generates:
       - /etc/containers/systemd/{{.container}}.container
       - /etc/containers/systemd/{{.container}}/config/**/**
