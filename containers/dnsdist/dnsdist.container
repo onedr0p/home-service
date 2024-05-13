@@ -3,7 +3,7 @@ Description=dnsdist
 
 [Container]
 ContainerName=dnsdist
-Image=docker.io/powerdns/dnsdist-19:1.9.3
+Image=docker.io/powerdns/dnsdist-19:1.9.4
 Environment=TZ=America/New_York
 Volume=./dnsdist/config/dnsdist.conf:/etc/dnsdist/dnsdist.conf:ro
 Network=containernet
