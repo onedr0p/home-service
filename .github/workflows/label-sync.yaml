@@ -40,6 +40,8 @@ jobs:
 
       - name: Append app labels to the labels config file
         shell: bash
+        env:
+          GITHUB_ACTIONS: "true"
         run: task ci:append-app-labels
 
       - name: Sync Labels
