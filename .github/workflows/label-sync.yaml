@@ -9,6 +9,7 @@ on:
     paths:
       - .github/labels.yaml
       - .github/workflows/label-sync.yaml
+      - .taskfiles/ci/Taskfile.yaml
       - apps/**
   schedule:
     - cron: "0 0 * * *" # Every day at midnight
@@ -39,7 +40,7 @@ jobs:
 
       - name: Append app labels to the labels config file
         shell: bash
-        run: task ci:append-app-labels
+        run: printenv; task ci:append-app-labels
 
       - name: Sync Labels
         uses: EndBug/label-sync@v2
