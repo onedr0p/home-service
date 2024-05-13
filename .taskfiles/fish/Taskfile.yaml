@@ -11,7 +11,12 @@ tasks:
         |
         tee /home/$LOGNAME/.config/fish/conf.d/hooks.fish > /dev/null <<EOF
         if status is-interactive
-            direnv hook fish | source
+            if type -q direnv
+                direnv hook fish | source
+            end
+            if type -q starship
+                starship init fish | source
+            end
         end
         EOF
       - # Aliases
