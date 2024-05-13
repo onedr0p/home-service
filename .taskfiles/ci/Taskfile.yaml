@@ -17,5 +17,5 @@ tasks:
       apps:
         sh: for dir in {{.ROOT_DIR}}/apps/*/; do basename "${dir}"; done
     preconditions:
-      - msg: must only be run as in a GH workflow
+      - msg: must only be run in a GH workflow
         sh: test -d /home/runner
