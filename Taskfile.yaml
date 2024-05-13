@@ -4,13 +4,15 @@ version: "3"
 
 env:
   SOPS_AGE_KEY_FILE: '{{.ROOT_DIR}}/age.key'
+  TASK_TEMP_DIR: '{{.ROOT_DIR}}/.private'
 
 vars:
   # renovate: datasource=github-releases depName=getsops/sops
   SOPS_VERSION: v3.8.1
 
 includes:
-  blocky: containers/blocky
+  blocky: apps/blocky
+  ci: .taskfiles/ci
   fish: .taskfiles/fish
 
 tasks:
@@ -66,23 +68,23 @@ tasks:
   reload-*:
     desc: Reload a container service
     cmds:
-      - sudo rsync -rv {{.ROOT_DIR}}/containers/{{.container}}/{{.container}}.container /etc/containers/systemd/
-      - sudo rsync -rv --mkpath --delete {{.ROOT_DIR}}/containers/{{.container}}/data/{{- if eq .CLI_FORCE false }}config/{{ end }} /etc/containers/systemd/{{.container}}{{- if eq .CLI_FORCE false }}/config{{ end }}
+      - sudo rsync -rv {{.ROOT_DIR}}/apps/{{.container}}/{{.container}}.container /etc/containers/systemd/
+      - sudo rsync -rv --mkpath --delete {{.ROOT_DIR}}/apps/{{.container}}/data/{{- if eq .CLI_FORCE false }}config/{{ end }} /etc/containers/systemd/{{.container}}{{- if eq .CLI_FORCE false }}/config{{ end }}
       - sudo --preserve-env bash -c "find /etc/containers/systemd/{{.container}}/config -type f -name "*.sops.*" -print0 | xargs -0 -I {} sops --config {{.ROOT_DIR}}/.sops.yaml --decrypt --in-place {}"
       - sudo systemctl daemon-reload
     sources:
-      - "{{.ROOT_DIR}}/containers/{{.container}}/{{.container}}.container"
-      - "{{.ROOT_DIR}}/containers/{{.container}}/data/config/**/**"
+      - "{{.ROOT_DIR}}/apps/{{.container}}/{{.container}}.container"
+      - "{{.ROOT_DIR}}/apps/{{.container}}/data/config/**/**"
     generates:
       - /etc/containers/systemd/{{.container}}.container
       - /etc/containers/systemd/{{.container}}/config/**/**
       - /run/systemd/generator/{{.container}}.service
     label: reload-{{.container}}
     preconditions:
-      - msg: file 'containers/{{.container}}/{{.container}}.container' not found
-        sh: test -f {{.ROOT_DIR}}/containers/{{.container}}/{{.container}}.container
-      - msg: directory 'containers/{{.container}}/data' not found
-        sh: test -d {{.ROOT_DIR}}/containers/{{.container}}/data
+      - msg: file 'apps/{{.container}}/{{.container}}.container' not found
+        sh: test -f {{.ROOT_DIR}}/apps/{{.container}}/{{.container}}.container
+      - msg: directory 'apps/{{.container}}/data' not found
+        sh: test -d {{.ROOT_DIR}}/apps/{{.container}}/data
     vars:
       container: '{{index .MATCH 0}}'
 

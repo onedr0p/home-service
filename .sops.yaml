@@ -1,16 +1,16 @@
 ---
 creation_rules:
-  - path_regex: containers/.+\.sops\.env
+  - path_regex: apps/.+\.sops\.env
     input_type: dotenv
     key_groups:
       - age:
           - age1nz0njhy3v78hfwu7cx330ngu5eafvu5wtfufe9r9rqu9hhqltpxs26ukw7
-  - path_regex: containers/.+\.sops\.json
+  - path_regex: apps/.+\.sops\.json
     input_type: json
     key_groups:
       - age:
           - age1nz0njhy3v78hfwu7cx330ngu5eafvu5wtfufe9r9rqu9hhqltpxs26ukw7
-  - path_regex: containers/.+\.sops\.key
+  - path_regex: apps/.+\.sops\.key
     input_type: json
     key_groups:
       - age:

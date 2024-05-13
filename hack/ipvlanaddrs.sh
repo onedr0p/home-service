@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-for file in containers/*/*.container; do
+for file in apps/*/*.container; do
     ip=$(grep -oP '(?<=IP=).*' "$file")
     if [ -n "$ip" ]; then
         echo "Container Name: $(basename ${file%%.*})"
