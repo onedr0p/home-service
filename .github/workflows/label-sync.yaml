@@ -9,7 +9,6 @@ on:
     paths:
       - .github/labels.yaml
       - .github/workflows/label-sync.yaml
-      - .taskfiles/ci/Taskfile.yaml
       - apps/**
   schedule:
     - cron: "0 0 * * *" # Every day at midnight

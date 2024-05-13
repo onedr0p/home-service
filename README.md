@@ -120,10 +120,11 @@ go-task --list
 
 > [!TIP]
 > _[fish shell](https://fishshell.com/) is awesome, you should try fish 🐟._
-> _After running the command below logout and login again._
+> _After running the commands below logout and login again._
 
 ```sh
 chsh -s /usr/bin/fish
+go-task deps
 ```
 
 #### Tune selinux
