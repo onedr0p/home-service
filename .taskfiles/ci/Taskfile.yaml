@@ -18,4 +18,4 @@ tasks:
         sh: for dir in {{.ROOT_DIR}}/apps/*/; do basename "${dir}"; done
     preconditions:
       - msg: must only be ran in a GH workflow
-        sh: '[[ $GITHUB_ACTIONS != "true" ]]'
+        sh: '[[ -z {{.CLI_FORCE}} ]]'
