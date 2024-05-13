@@ -4,7 +4,7 @@ Description=dhcp-proxy
 [Container]
 ContainerName=dhcp-proxy
 Image=quay.io/poseidon/dnsmasq:v0.5.0-31-gdc1adc8
-Exec=-d -q \
+Exec=--log-dhcp --log-queries --no-daemon \
   --port=0 \
   --dhcp-range=192.168.1.1,proxy,255.255.255.0 \
   --enable-tftp \
@@ -22,9 +22,7 @@ Exec=-d -q \
   --dhcp-match=set:arm64,option:client-arch,11 \
   --dhcp-boot=tag:arm64,ipxe-arm64.efi \
   --dhcp-userclass=set:ipxe,iPXE \
-  --dhcp-boot=tag:ipxe,http://192.168.1.128/boot.ipxe \
-  --log-queries \
-  --log-dhcp
+  --dhcp-boot=tag:ipxe,http://192.168.1.128/boot.ipxe
 Network=host
 AddCapability=NET_BIND_SERVICE
 AddCapability=NET_ADMIN

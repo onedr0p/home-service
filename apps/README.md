@@ -22,7 +22,7 @@ https://www.isc.org/bind/
     task start-bind
     ```
 
-## Optional configuration
+### Optional configuration
 
 1. Create additional rndc keys for external-dns and encrypt them with sops
 
@@ -46,6 +46,10 @@ https://github.com/0xERR0R/blocky
     task start-blocky
     ```
 
+## dhcp-proxy
+
+https://github.com/poseidon/dnsmasq
+
 ## dnsdist
 
 https://dnsdist.org
@@ -58,7 +62,19 @@ https://dnsdist.org
     task start-dnsdist
     ```
 
-## onepassword
+## gatus
+
+https://github.com/TwiN/gatus
+
+## matchbox
+
+https://github.com/poseidon/matchbox
+
+## node-exporter
+
+https://github.com/prometheus/node_exporter
+
+## op-connect
 
 https://github.com/1Password/connect
 
@@ -94,3 +110,11 @@ https://github.com/containers/prometheus-podman-exporter
     ```sh
     task start-podman-exporter
     ```
+
+## smtp-relay
+
+https://github.com/foxcpp/maddy
+
+## traefik
+
+https://github.com/traefik/traefik
