@@ -40,7 +40,8 @@ jobs:
 
       - name: Append app labels to the labels config file
         shell: bash
-        run: task ci:append-app-labels --force
+        working-directory: .github
+        run: task append-app-labels --force
 
       - name: Sync Labels
         uses: EndBug/label-sync@v2

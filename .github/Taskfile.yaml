@@ -3,9 +3,13 @@
 version: "3"
 
 vars:
-  LABELS_CONFIG_FILE: '{{.ROOT_DIR}}/.github/labels.yaml'
+  LABELS_CONFIG_FILE: '{{.ROOT_DIR}}/labels.yaml'
 
 tasks:
+
+  default:
+    silent: true
+    cmd: go-task -l
 
   append-app-labels:
     desc: Append container labels to the labels config file
@@ -15,7 +19,7 @@ tasks:
           yq -i '. += [{"name": "app/{{.ITEM}}", "color": "0e8a16"}]' {{.LABELS_CONFIG_FILE}}
     vars:
       apps:
-        sh: for dir in {{.ROOT_DIR}}/apps/*/; do basename "${dir}"; done
+        sh: for dir in {{.ROOT_DIR}}/../apps/*/; do basename "${dir}"; done
     preconditions:
       - msg: must only be ran in a GH workflow
         sh: '[[ -z {{.CLI_FORCE}} ]]'

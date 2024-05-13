@@ -14,9 +14,6 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
 
 ### System configuration
 
-> [!IMPORTANT]
-> A non-root user must be created (if not already) and used.
-
 1. Install required system deps and reboot
 
     ```sh
@@ -123,11 +120,10 @@ go-task --list
 
 > [!TIP]
 > _[fish shell](https://fishshell.com/) is awesome, you should try fish 🐟._
-> _After running the commands below logout and login again._
+> _After running the command below logout and login again._
 
 ```sh
 chsh -s /usr/bin/fish
-go-task fish:deps
 ```
 
 #### Tune selinux

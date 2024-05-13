@@ -4,12 +4,12 @@ version: "3"
 
 tasks:
 
-  state-*:
+  ::blocky:state-*:
     desc: Enable or Disable adblocking
     cmd: sudo podman exec -it blocky ./blocky blocking {{.state}}
     vars:
       state: '{{index .MATCH 0}}'
 
-  refresh:
+  ::blocky:refresh:
     desc: Refresh adblock lists
     cmd: sudo podman exec -it blocky ./blocky lists refresh

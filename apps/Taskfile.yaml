@@ -1,0 +1,89 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: "3"
+
+includes:
+  blocky: ./blocky
+
+tasks:
+
+  :start-*:
+    desc: Start a container service
+    cmds:
+      - task: :reload-{{.container}}
+      - sudo systemctl start {{.container}}
+    vars:
+      container: '{{index .MATCH 0}}'
+
+  :stop-*:
+    desc: Stop a container service
+    cmd: sudo systemctl stop {{.container}}
+    vars:
+      container: '{{index .MATCH 0}}'
+    preconditions:
+      - msg: container systemd service '{{.container}}' not found
+        sh: systemctl status {{.container}}
+
+  :restart-*:
+    desc: Restart a container service
+    cmds:
+      - task: :reload-{{.container}}
+      - sudo systemctl restart {{.container}}
+    vars:
+      container: '{{index .MATCH 0}}'
+    preconditions:
+      - msg: container systemd service '{{.container}}' not found
+        sh: systemctl status {{.container}}
+
+  :status-*:
+    desc: Status of a container service
+    cmd: sudo systemctl status {{.container}}
+    vars:
+      container: '{{index .MATCH 0}}'
+    preconditions:
+      - msg: container systemd service '{{.container}}' not found
+        sh: systemctl status {{.container}}
+
+  :reload-*:
+    desc: Reload a container service
+    cmds:
+      - sudo rsync -rv {{.ROOT_DIR}}/apps/{{.container}}/{{.container}}.container /etc/containers/systemd/
+      - sudo rsync -rv --mkpath --delete {{.ROOT_DIR}}/apps/{{.container}}/data/{{- if eq .CLI_FORCE false }}config/{{ end }} /etc/containers/systemd/{{.container}}{{- if eq .CLI_FORCE false }}/config{{ end }}
+      - sudo --preserve-env bash -c "find /etc/containers/systemd/{{.container}}/config -type f -name "*.sops.*" -print0 | xargs -0 -I {} sops --config {{.ROOT_DIR}}/.sops.yaml --decrypt --in-place {}"
+      - sudo systemctl daemon-reload
+    sources:
+      - "{{.ROOT_DIR}}/apps/{{.container}}/{{.container}}.container"
+      - "{{.ROOT_DIR}}/apps/{{.container}}/data/config/**/**"
+    generates:
+      - /etc/containers/systemd/{{.container}}.container
+      - /etc/containers/systemd/{{.container}}/config/**/**
+      - /run/systemd/generator/{{.container}}.service
+    label: reload-{{.container}}
+    preconditions:
+      - msg: file 'apps/{{.container}}/{{.container}}.container' not found
+        sh: test -f {{.ROOT_DIR}}/apps/{{.container}}/{{.container}}.container
+      - msg: directory 'apps/{{.container}}/data' not found
+        sh: test -d {{.ROOT_DIR}}/apps/{{.container}}/data
+    vars:
+      container: '{{index .MATCH 0}}'
+
+  :remove-*:
+    desc: Remove a container service
+    prompt: Remove the '{{.container}}' container ... continue?
+    cmds:
+      - task: :stop-{{.container}}
+      - sudo rm /etc/containers/systemd/{{.container}}.container
+      - sudo rm -rf /etc/containers/systemd/{{.container}}
+      - sudo rm -rf /run/systemd/generator/{{.container}}.service
+      - sudo systemctl daemon-reload
+    vars:
+      container: '{{index .MATCH 0}}'
+
+  :logs-*:
+    desc: Tail logs of a container
+    cmd: sudo podman logs -f {{.container}}
+    vars:
+      container: '{{index .MATCH 0}}'
+    preconditions:
+      - msg: container '{{.container}}' not found
+        sh: sudo podman inspect {{.container}}

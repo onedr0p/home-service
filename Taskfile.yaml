@@ -11,9 +11,7 @@ vars:
   SOPS_VERSION: v3.8.1
 
 includes:
-  blocky: apps/blocky
-  ci: .taskfiles/ci
-  fish: .taskfiles/fish
+  app: ./apps
 
 tasks:
 
@@ -27,84 +25,41 @@ tasks:
       - sudo rpm-ostree install --idempotent --assumeyes age bind-utils direnv expect fastfetch fish fzf gh git go-task gron htop moreutils nano net-tools netcat nmap rsync systemd-networkd tcpdump telnet tree wget yq zoxide
       - sudo rpm-ostree install --idempotent --assumeyes https://github.com/getsops/sops/releases/download/{{.SOPS_VERSION}}/sops-{{.SOPS_VERSION | replace "v" ""}}.x86_64.rpm
       - sudo rpm-ostree install --idempotent --assumeyes https://downloads.1password.com/linux/rpm/stable/x86_64/1password-cli-latest.x86_64.rpm
-
-  start-*:
-    desc: Start a container service
-    cmds:
-      - task: reload-{{.container}}
-      - sudo systemctl start {{.container}}
-    vars:
-      container: '{{index .MATCH 0}}'
-
-  stop-*:
-    desc: Stop a container service
-    cmd: sudo systemctl stop {{.container}}
-    vars:
-      container: '{{index .MATCH 0}}'
+      - # Direnv
+        |
+        mkdir -p /home/$LOGNAME/.config/direnv && \
+        tee /home/$LOGNAME/.config/direnv/direnv.toml > /dev/null <<EOF
+        [whitelist]
+        prefix = [ "/var/opt/home-service" ]
+        EOF
+      - # Fish Hooks
+        |
+        tee /home/$LOGNAME/.config/fish/conf.d/hooks.fish > /dev/null <<EOF
+        if status is-interactive
+            if type -q direnv
+                direnv hook fish | source
+            end
+            if type -q starship
+                starship init fish | source
+            end
+        end
+        EOF
+      - # Fish Aliases
+        |
+        tee /home/$LOGNAME/.config/fish/conf.d/aliases.fish > /dev/null <<EOF
+        alias task go-task
+        EOF
+      - # Fish Greeting
+        |
+        tee /home/$LOGNAME/.config/fish/conf.d/fish_greeting.fish > /dev/null <<EOF
+        function fish_greeting
+            fastfetch
+        end
+        EOF
+      - # Fish Completions
+        |
+        curl -fsSL -o /home/$LOGNAME/.config/fish/completions/task.fish \
+            https://raw.githubusercontent.com/go-task/task/main/completion/fish/task.fish
     preconditions:
-      - msg: container systemd service '{{.container}}' not found
-        sh: systemctl status {{.container}}
-
-  restart-*:
-    desc: Restart a container service
-    cmds:
-      - task: reload-{{.container}}
-      - sudo systemctl restart {{.container}}
-    vars:
-      container: '{{index .MATCH 0}}'
-    preconditions:
-      - msg: container systemd service '{{.container}}' not found
-        sh: systemctl status {{.container}}
-
-  status-*:
-    desc: Status of a container service
-    cmd: sudo systemctl status {{.container}}
-    vars:
-      container: '{{index .MATCH 0}}'
-    preconditions:
-      - msg: container systemd service '{{.container}}' not found
-        sh: systemctl status {{.container}}
-
-  reload-*:
-    desc: Reload a container service
-    cmds:
-      - sudo rsync -rv {{.ROOT_DIR}}/apps/{{.container}}/{{.container}}.container /etc/containers/systemd/
-      - sudo rsync -rv --mkpath --delete {{.ROOT_DIR}}/apps/{{.container}}/data/{{- if eq .CLI_FORCE false }}config/{{ end }} /etc/containers/systemd/{{.container}}{{- if eq .CLI_FORCE false }}/config{{ end }}
-      - sudo --preserve-env bash -c "find /etc/containers/systemd/{{.container}}/config -type f -name "*.sops.*" -print0 | xargs -0 -I {} sops --config {{.ROOT_DIR}}/.sops.yaml --decrypt --in-place {}"
-      - sudo systemctl daemon-reload
-    sources:
-      - "{{.ROOT_DIR}}/apps/{{.container}}/{{.container}}.container"
-      - "{{.ROOT_DIR}}/apps/{{.container}}/data/config/**/**"
-    generates:
-      - /etc/containers/systemd/{{.container}}.container
-      - /etc/containers/systemd/{{.container}}/config/**/**
-      - /run/systemd/generator/{{.container}}.service
-    label: reload-{{.container}}
-    preconditions:
-      - msg: file 'apps/{{.container}}/{{.container}}.container' not found
-        sh: test -f {{.ROOT_DIR}}/apps/{{.container}}/{{.container}}.container
-      - msg: directory 'apps/{{.container}}/data' not found
-        sh: test -d {{.ROOT_DIR}}/apps/{{.container}}/data
-    vars:
-      container: '{{index .MATCH 0}}'
-
-  remove-*:
-    desc: Remove a container service
-    prompt: Remove the '{{.container}}' container ... continue?
-    cmds:
-      - task: stop-{{.container}}
-      - sudo rm /etc/containers/systemd/{{.container}}.container
-      - sudo rm -rf /etc/containers/systemd/{{.container}}
-      - sudo rm -rf /run/systemd/generator/{{.container}}.service
-      - sudo systemctl daemon-reload
-    vars:
-      container: '{{index .MATCH 0}}'
-
-  logs-*:
-    desc: Tail logs of a container
-    cmd: sudo podman logs -f {{.container}}
-    vars:
-      container: '{{index .MATCH 0}}'
-    preconditions:
-      - msg: container '{{.container}}' not found
-        sh: sudo podman inspect {{.container}}
+      - msg: must not be run as root
+        sh: '[[ $LOGNAME != "root" ]]'
