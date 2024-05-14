@@ -69,7 +69,7 @@ tasks:
       - task: reload-{{.container}}
       - sudo systemctl start {{.container}}
       - sudo systemctl is-active --quiet {{.container}} || exit 1
-      - sudo podman ps --all --filter name=dhcp-proxy --format "{{ `{{.Names}} - {{.Image}} - {{.Status}}` }}"
+      - sudo podman ps --all --filter name={{.container}} --format "{{ `{{.Names}} - {{.Image}} - {{.Status}}` }}"
     vars:
       container: '{{index .MATCH 0}}'
 
@@ -88,7 +88,7 @@ tasks:
       - task: reload-{{.container}}
       - sudo systemctl restart {{.container}}
       - sudo systemctl is-active --quiet {{.container}} || exit 1
-      - sudo podman ps --all --filter name=dhcp-proxy --format "{{ `{{.Names}} - {{.Image}} - {{.Status}}` }}"
+      - sudo podman ps --all --filter name={{.container}} --format "{{ `{{.Names}} - {{.Image}} - {{.Status}}` }}"
     vars:
       container: '{{index .MATCH 0}}'
     preconditions:
