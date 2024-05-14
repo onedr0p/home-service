@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+      "hangxingliu.vscode-systemd-support",
+      "mikestead.dotenv",
+      "redhat.vscode-yaml",
+      "PKief.material-icon-theme",
+  ]
+}
