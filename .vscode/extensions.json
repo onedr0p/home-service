@@ -1,8 +1,8 @@
 {
   "recommendations": [
+      "EdwinKofler.vscode-assorted-languages",
       "hangxingliu.vscode-systemd-support",
       "mikestead.dotenv",
       "redhat.vscode-yaml",
-      "PKief.material-icon-theme",
   ]
 }
