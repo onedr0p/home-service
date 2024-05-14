@@ -2,6 +2,14 @@
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: "3"
 
+x-preconditions:
+  - &not-root
+    msg: must not be run as root
+    sh: '[[ $LOGNAME != "root" ]]'
+  - &container-service-not-found
+    msg: container systemd service 'blocky' not found
+    sh: systemctl status blocky
+
 tasks:
 
   state-*:
@@ -9,7 +17,13 @@ tasks:
     cmd: sudo podman exec -it blocky ./blocky blocking {{.state}}
     vars:
       state: '{{index .MATCH 0}}'
+    preconditions:
+      - *not-root
+      - *container-service-not-found
 
   refresh:
     desc: Refresh adblock lists
     cmd: sudo podman exec -it blocky ./blocky lists refresh
+    preconditions:
+      - *not-root
+      - *container-service-not-found
