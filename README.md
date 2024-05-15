@@ -119,12 +119,21 @@ go-task --list
 #### Fish Shell
 
 > [!TIP]
-> _[fish shell](https://fishshell.com/) is awesome, you should try fish 🐟._
-> _After running the commands below logout and login again._
+> _🐟 [fish shell](https://fishshell.com/) is awesome, you should try fish. After running the below commands logout and login again._
 
 ```sh
 chsh -s /usr/bin/fish
 go-task deps
+```
+
+#### Enable Chrony as a NTP server
+
+> [!TIP]
+> _⌚ You can also update `/etc/chrony.conf` with custom NTP servers._
+
+```sh
+sudo sed -i 's/^#allow .*/allow all/g' /etc/chrony.conf
+sudo systemctl restart chronyd
 ```
 
 #### Tune selinux
