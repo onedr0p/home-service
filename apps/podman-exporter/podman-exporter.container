@@ -5,13 +5,14 @@ After=podman.socket
 
 [Container]
 ContainerName=podman-exporter
-Image=quay.io/navidys/prometheus-podman-exporter:v1.11.1
 Environment=CONTAINER_HOST=unix:///run/podman/podman.sock
-Volume=/run/podman/podman.sock:/run/podman/podman.sock
+Environment=TZ=America/New_York
 Exec=--collector.enhance-metrics
+Image=quay.io/navidys/prometheus-podman-exporter:v1.11.1@sha256:f149c4217fb9229b69e1dac73a473f42d6462cd20c927e307dbf63d4900896cc
 Network=host
 SecurityLabelDisable=true
 User=root
+Volume=/run/podman/podman.sock:/run/podman/podman.sock
 
 [Service]
 Restart=always

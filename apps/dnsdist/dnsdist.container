@@ -2,13 +2,13 @@
 Description=dnsdist
 
 [Container]
-ContainerName=dnsdist
-Image=docker.io/powerdns/dnsdist-19:1.9.4
-Environment=TZ=America/New_York
-Volume=./dnsdist/config/dnsdist.conf:/etc/dnsdist/dnsdist.conf:ro
-Network=containernet
-IP=192.168.1.121
 AddCapability=NET_BIND_SERVICE
+ContainerName=dnsdist
+Environment=TZ=America/New_York
+Image=docker.io/powerdns/dnsdist-19:1.9.4@sha256:a862133fb517be2d65c4922beb2ca053b996e46f1baeb9fcab570d0cd3d53772
+IP=192.168.1.121
+Network=containernet
+Volume=./dnsdist/config/dnsdist.conf:/etc/dnsdist/dnsdist.conf:ro
 
 [Service]
 Restart=always

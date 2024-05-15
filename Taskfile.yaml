@@ -133,6 +133,12 @@ tasks:
       - *not-root
       - *container-not-found
 
+  list:
+    desc: List all containers
+    cmd: sudo podman ps --all --format '{{ `{{.Names}}\t{{.Status}}\t{{.Networks}}` }}' --sort names | column -s$'\t' --table
+    preconditions:
+      - *not-root
+
   dotfiles:
     internal: true
     cmds:

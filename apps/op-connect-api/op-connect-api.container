@@ -2,17 +2,18 @@
 Description=op-connect-api
 
 [Container]
+AddCapability=NET_BIND_SERVICE
 ContainerName=op-connect-api
-Image=docker.io/1password/connect-api:1.7.2
 Environment=OP_HTTP_PORT=80
 Environment=OP_SESSION=/config/1password-credentials.json
+Environment=TZ=America/New_York
 Environment=XDG_DATA_HOME=/data
-Volume=./op-connect-api/config/1password-credentials.sops.json:/config/1password-credentials.json:ro
-Volume=./op-connect-api/cache:/data
-Network=containernet
+Image=docker.io/1password/connect-api:1.7.2@sha256:6aa94cf713f99c0fa58c12ffdd1b160404b4c13a7f501a73a791aa84b608c5a1
 IP=192.168.1.124
+Network=containernet
 User=root
-AddCapability=NET_BIND_SERVICE
+Volume=./op-connect-api/cache:/data
+Volume=./op-connect-api/config/1password-credentials.sops.json:/config/1password-credentials.json:ro
 
 [Service]
 Restart=always

@@ -2,15 +2,15 @@
 Description=bind
 
 [Container]
+AddCapability=NET_BIND_SERVICE
 ContainerName=bind
-Image=docker.io/ubuntu/bind9:9.18-22.04_beta
-Environment=TZ=America/New_York
 Environment=BIND9_USER=root
+Environment=TZ=America/New_York
+IP=192.168.1.123
+Image=docker.io/ubuntu/bind9:9.18-22.04_beta@sha256:1dc6d428e149fcba4a43894e15f229c65c34180ab7c7010e94667ea46877f5ea
+Network=containernet
 Volume=./bind/cache:/var/cache/bind
 Volume=./bind/config:/etc/bind:ro
-Network=containernet
-IP=192.168.1.123
-AddCapability=NET_BIND_SERVICE
 
 [Service]
 Restart=always
