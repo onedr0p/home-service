@@ -1,7 +1,7 @@
 ; SOA Records
 $TTL 3600
 $ORIGIN devbu.io.
-@ 3600 IN SOA devbu.io. voyager.turbo.ac. (
+@ 3600 IN SOA devbu.io. voyager.internal. (
     0000000001         ; serial number
     7200               ; refresh period
     3600               ; retry period
@@ -10,4 +10,4 @@ $ORIGIN devbu.io.
 )
 
 ; NS Records
-@                          IN  NS     voyager.turbo.ac.
+@                          IN  NS     voyager.internal.

@@ -1,7 +1,7 @@
 ; SOA Records
 $TTL 3600
 $ORIGIN turbo.ac.
-@ 3600 IN SOA turbo.ac. voyager.turbo.ac. (
+@ 3600 IN SOA turbo.ac. voyager.internal. (
     0000000001         ; serial number
     7200               ; refresh period
     3600               ; retry period
@@ -10,7 +10,7 @@ $ORIGIN turbo.ac.
 )
 
 ; NS Records
-@                          IN  NS     voyager.turbo.ac.
+@                          IN  NS     voyager.internal.
 
 ; LAN
 unifi                      IN  A      192.168.1.1
