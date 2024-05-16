@@ -116,14 +116,15 @@ go-task --list
 
 ### Optional configuration
 
-#### Fish Shell
+#### Fish shell
 
 > [!TIP]
-> _🐟 [fish shell](https://fishshell.com/) is awesome, you should try fish. After running the below commands logout and login again._
+> _🐟 [fish](https://fishshell.com/) is awesome, you should try fish!_
 
 ```sh
 chsh -s /usr/bin/fish
-go-task deps
+# IMPORTANT: Log out and log back in
+go-task dotfiles
 ```
 
 #### Enable Chrony as a NTP server

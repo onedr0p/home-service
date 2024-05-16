@@ -3,6 +3,12 @@ ports:
   dns: 0.0.0.0:53
   http: 0.0.0.0:4000
 
+bootstrapDns:
+  - tcp+udp:1.1.1.1
+  - tcp+udp:1.0.0.1
+  - https://1.1.1.1/dns-query
+  - https://1.0.0.1/dns-query
+
 upstreams:
   groups:
     default:
@@ -15,12 +21,16 @@ upstreams:
 conditional:
   fallbackUpstream: false
   mapping:
-    internal: 192.168.1.123
+    168.192.in-addr.arpa: 192.168.1.123
     devbu.io: 192.168.1.123
+    internal: 192.168.1.123
     turbo.ac: 192.168.1.123
 
 clientLookup:
   upstream: 192.168.1.123
+
+caching:
+  cacheTimeNegative: -1
 
 ecs:
   useAsClient: true

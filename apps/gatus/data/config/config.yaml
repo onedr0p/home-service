@@ -1,3 +1,4 @@
+---
 web:
   port: 80
 storage:
@@ -8,8 +9,8 @@ ui:
   header: Home Status
 alerting:
   pushover:
-    application-token: ${GATUS_CUSTOM_PUSHOVER_APP_TOKEN}
-    user-key: ${GATUS_CUSTOM_PUSHOVER_USER_KEY}
+    application-token: ${PUSHOVER_APP_TOKEN}
+    user-key: ${PUSHOVER_USER_KEY}
     default-alert:
       description: healthcheck failed
       send-on-resolved: false
@@ -23,41 +24,34 @@ endpoints:
   #
   # DNS group
   #
-  - name: dnsdist-external
-    group: DNS
-    url: 192.168.1.121:53
-    dns:
-      query-name: google.com
-      query-type: A
-    conditions: ["[DNS_RCODE] == NOERROR"]
-  - name: dnsdist-internal
-    group: DNS
-    url: 192.168.1.121:53
-    dns:
-      query-name: voyager.turbo.ac
-      query-type: A
-    conditions: ["[BODY] == 192.168.1.42", "[DNS_RCODE] == NOERROR"]
-  - name: bind-internal
-    group: DNS
-    url: 192.168.1.123:53
-    dns:
-      query-name: voyager.turbo.ac
-      query-type: A
-    conditions: ["[BODY] == 192.168.1.42", "[DNS_RCODE] == NOERROR"]
   - name: blocky-external
     group: DNS
-    url: 192.168.1.122:53
+    url: 192.168.1.121
     dns:
       query-name: google.com
       query-type: A
     conditions: ["[DNS_RCODE] == NOERROR"]
   - name: blocky-internal
     group: DNS
-    url: 192.168.1.122:53
+    url: 192.168.1.121
     dns:
-      query-name: voyager.turbo.ac
+      query-name: voyager.internal
+      query-type: A
+    conditions: ["[BODY] == 192.168.1.42", "[DNS_RCODE] == NOERROR"]
+  - name: bind-external
+    group: DNS
+    url: 192.168.1.123
+    dns:
+      query-name: google.com
       query-type: A
     conditions: ["[DNS_RCODE] == NOERROR"]
+  - name: bind-internal
+    group: DNS
+    url: 192.168.1.123
+    dns:
+      query-name: voyager.internal
+      query-type: A
+    conditions: ["[BODY] == 192.168.1.42", "[DNS_RCODE] == NOERROR"]
   #
   # Devices group
   #

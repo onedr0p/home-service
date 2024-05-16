@@ -14,33 +14,9 @@ $ORIGIN turbo.ac.
 
 ; LAN
 unifi                      IN  A      192.168.1.1
-voyager                    IN  A      192.168.1.42
-idrac                      IN  A      192.168.1.82
-hdhomerun                  IN  A      192.168.1.83
-pikvm                      IN  A      192.168.1.84
-zigbee-controller          IN  A      192.168.1.90
-zwave-controller           IN  A      192.168.1.94
-
-; TRUSTED
-garage-door                IN  A      192.168.10.20
-vacuum                     IN  A      192.168.10.21
-kiosk                      IN  A      192.168.10.22
-living-room-shield         IN  A      192.168.10.24
-master-bedroom-shield      IN  A      192.168.10.25
-living-room-receiver       IN  A      192.168.10.26
-
-; Servers
-k8s-0                      IN  A      192.168.42.10
-k8s-1                      IN  A      192.168.42.11
-k8s-2                      IN  A      192.168.42.12
-k8s-3                      IN  A      192.168.42.13
-k8s-4                      IN  A      192.168.42.14
-k8s-5                      IN  A      192.168.42.15
-expanse                    IN  A      192.168.42.80
 
 ; Containers
 op-connect-api             IN  A      192.168.1.124
-op-connect-sync            IN  A      192.168.1.125
 traefik                    IN  A      192.168.1.126
 gatus                      IN  A      192.168.1.127
 matchbox                   IN  A      192.168.1.128
