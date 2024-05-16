@@ -1,7 +1,7 @@
 [Unit]
 Description=podman-exporter
-Requires=podman.socket
 After=podman.socket
+Requires=podman.socket
 
 [Container]
 ContainerName=podman-exporter
