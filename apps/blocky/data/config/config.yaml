@@ -15,10 +15,9 @@ upstreams:
 conditional:
   fallbackUpstream: false
   mapping:
-    internal: 192.168.1.1
+    internal: 192.168.1.123
     devbu.io: 192.168.1.123
     turbo.ac: 192.168.1.123
-    168.192.in-addr.arpa: 192.168.1.123
 
 clientLookup:
   upstream: 192.168.1.123
