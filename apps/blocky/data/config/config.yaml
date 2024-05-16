@@ -8,9 +8,20 @@ upstreams:
     default:
       - tcp-tls:1.1.1.1:853
       - tcp-tls:1.0.0.1:853
+    river*:
+      - tcp-tls:1.1.1.3:853
+      - tcp-tls:1.0.0.3:853
+
+conditional:
+  fallbackUpstream: false
+  mapping:
+    internal: 192.168.1.1
+    devbu.io: 192.168.1.123
+    turbo.ac: 192.168.1.123
+    168.192.in-addr.arpa: 192.168.1.123
 
 clientLookup:
-  upstream: 192.168.1.123:53 # bind
+  upstream: 192.168.1.123
 
 ecs:
   useAsClient: true
@@ -22,7 +33,7 @@ prometheus:
 blocking:
   loading:
     downloads:
-      timeout: 4m
+      timeout: 60s
   blackLists:
     ads:
       - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
