@@ -19,9 +19,11 @@ upstreams:
 conditional:
   fallbackUpstream: false
   mapping:
+    # Forward to router
     168.192.in-addr.arpa: 192.168.1.1
-    devbu.io: 192.168.1.123
     internal: 192.168.1.1
+    # Forward to bind
+    devbu.io: 192.168.1.123
     turbo.ac: 192.168.1.123
 
 clientLookup:
@@ -30,7 +32,8 @@ clientLookup:
 connectIPVersion: v4
 
 caching:
-  cacheTimeNegative: -1
+  minTime: 15m
+  prefetching: true
 
 ecs:
   useAsClient: true
