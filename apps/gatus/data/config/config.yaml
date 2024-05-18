@@ -20,3 +20,9 @@ connectivity:
   checker:
     target: 1.1.1.1:53
     interval: 1m
+endpoints:
+  - name: Heartbeat
+    group: Gatus
+    url: ${HEARTBEAT_URL}
+    interval: 5m
+    conditions: ["[STATUS] == 200"]
