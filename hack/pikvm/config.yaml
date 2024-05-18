@@ -1,7 +1,7 @@
 ---
 ports:
-  dns: 0.0.0.0:53
-  http: 0.0.0.0:4000
+  dns: 192.168.1.84:53
+  http: 192.168.1.84:4000
 
 bootstrapDns:
   - https://1.1.1.1/dns-query
@@ -23,8 +23,8 @@ conditional:
     168.192.in-addr.arpa: 192.168.1.1
     internal: 192.168.1.1
     # Forward to bind
-    devbu.io: 192.168.1.123
-    turbo.ac: 192.168.1.123
+    devbu.io: 192.168.1.84:5353
+    turbo.ac: 192.168.1.84:5353
 
 clientLookup:
   upstream: 192.168.1.1
