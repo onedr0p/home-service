@@ -5,17 +5,19 @@ storage:
   type: memory
 metrics: true
 ui:
-  title: Home Status | Gatus
-  header: Home Status
+  title: Status | Gatus
+  header: Status
 alerting:
   pushover:
-    application-token: ${PUSHOVER_APP_TOKEN}
+    title: Gatus (Service)
+    application-token: ${PUSHOVER_TOKEN}
     user-key: ${PUSHOVER_USER_KEY}
+    priority: 1
     default-alert:
-      description: healthcheck failed
+      description: health-check failed
       send-on-resolved: true
       failure-threshold: 3
-      success-threshold: 5
+      success-threshold: 3
 connectivity:
   checker:
     target: 1.1.1.1:53

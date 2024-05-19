@@ -1,86 +1,86 @@
 endpoints:
-  - name: Unifi Dream Machine (ICMP)
-    group: Devices
+  - name: Unifi Dream Machine
+    group: ICMP
     url: icmp://192.168.1.1
     conditions: ["[CONNECTED] == true"]
     alerts: [{ type: pushover }]
-  - name: APC UPS (ICMP)
-    group: Devices
+  - name: APC UPS
+    group: ICMP
     url: icmp://192.168.1.80
     conditions: ["[CONNECTED] == true"]
     alerts: [{ type: pushover }]
-  - name: Dell iDRAC 0 (ICMP)
-    group: Devices
+  - name: Dell iDRAC 0
+    group: ICMP
     url: icmp://192.168.1.82
     conditions: ["[CONNECTED] == true"]
     alerts: [{ type: pushover }]
-  - name: HDHomeRun (ICMP)
-    group: Devices
+  - name: HDHomeRun
+    group: ICMP
     url: icmp://192.168.1.83
     conditions: ["[CONNECTED] == true"]
     alerts: [{ type: pushover }]
-  - name: Kubernetes Node 0 (ICMP)
-    group: Devices
+  - name: Kubernetes Node 0
+    group: ICMP
     url: icmp://192.168.42.10
     conditions: ["[CONNECTED] == true"]
     alerts: [{ type: pushover }]
-  - name: Kubernetes Node 1 (ICMP)
-    group: Devices
+  - name: Kubernetes Node 1
+    group: ICMP
     url: icmp://192.168.42.11
     conditions: ["[CONNECTED] == true"]
     alerts: [{ type: pushover }]
-  - name: Kubernetes Node 2 (ICMP)
-    group: Devices
+  - name: Kubernetes Node 2
+    group: ICMP
     url: icmp://192.168.42.12
     conditions: ["[CONNECTED] == true"]
     alerts: [{ type: pushover }]
-  - name: Kubernetes Node 3 (ICMP)
-    group: Devices
+  - name: Kubernetes Node 3
+    group: ICMP
     url: icmp://192.168.42.13
     conditions: ["[CONNECTED] == true"]
     alerts: [{ type: pushover }]
-  - name: Kubernetes Node 4 (ICMP)
-    group: Devices
+  - name: Kubernetes Node 4
+    group: ICMP
     url: icmp://192.168.42.14
     conditions: ["[CONNECTED] == true"]
     alerts: [{ type: pushover }]
-  - name: Kubernetes Node 5 (ICMP)
-    group: Devices
+  - name: Kubernetes Node 5
+    group: ICMP
     url: icmp://192.168.42.15
     conditions: ["[CONNECTED] == true"]
     alerts: [{ type: pushover }]
-  - name: TESmart KVM (ICMP)
-    group: Devices
+  - name: TESmart KVM
+    group: ICMP
     url: icmp://192.168.1.10
     conditions: ["[CONNECTED] == true"]
     alerts: [{ type: pushover }]
-  - name: NAS (ICMP)
-    group: Devices
+  - name: NAS
+    group: ICMP
     url: icmp://192.168.42.80
     conditions: ["[CONNECTED] == true"]
     alerts: [{ type: pushover }]
-  - name: Open Garage (ICMP)
-    group: Devices
+  - name: Open Garage
+    group: ICMP
     url: icmp://192.168.10.20
     conditions: ["[CONNECTED] == true"]
     alerts: [{ type: pushover }]
-  - name: PiKVM (ICMP)
-    group: Devices
+  - name: PiKVM
+    group: ICMP
     url: icmp://192.168.1.84
     conditions: ["[CONNECTED] == true"]
     alerts: [{ type: pushover }]
-  - name: Valetudo (ICMP)
+  - name: Valetudo
     url: icmp://192.168.10.21
-    group: Devices
+    group: ICMP
     conditions: ["[CONNECTED] == true"]
     alerts: [{ type: pushover }]
-  - name: Zigbee Controller (ICMP)
-    group: Devices
+  - name: Zigbee Controller
+    group: ICMP
     url: icmp://192.168.1.90
     conditions: ["[CONNECTED] == true"]
     alerts: [{ type: pushover }]
-  - name: Zwave Controller (ICMP)
-    group: Devices
+  - name: Zwave Controller
+    group: ICMP
     url: icmp://192.168.1.94
     conditions: ["[CONNECTED] == true"]
     alerts: [{ type: pushover }]

@@ -1,0 +1,41 @@
+endpoints:
+  - name: Blocky (google.com)
+    group: DNS (Secondary)
+    url: 192.168.1.84
+    dns:
+      query-name: google.com
+      query-type: A
+    conditions: ["[DNS_RCODE] == NOERROR"]
+    alerts: [{ type: pushover }]
+  - name: Blocky (voyager.internal)
+    group: DNS (Secondary)
+    url: 192.168.1.84
+    dns:
+      query-name: voyager.internal
+      query-type: A
+    conditions: ["[BODY] == 192.168.1.42", "[DNS_RCODE] == NOERROR"]
+    alerts: [{ type: pushover }]
+  - name: Blocky (unifi.turbo.ac)
+    group: DNS (Secondary)
+    url: 192.168.1.84
+    dns:
+      query-name: unifi.turbo.ac
+      query-type: A
+    conditions: ["[BODY] == 192.168.1.1", "[DNS_RCODE] == NOERROR"]
+    alerts: [{ type: pushover }]
+  - name: Blocky (echo-server.devbu.io)
+    group: DNS (Secondary)
+    url: 192.168.1.84
+    dns:
+      query-name: echo-server.devbu.io
+      query-type: A
+    conditions: ["[BODY] == 192.168.42.126", "[DNS_RCODE] == NOERROR"]
+    alerts: [{ type: pushover }]
+  - name: Blocky (echo-server.turbo.ac)
+    group: DNS (Secondary)
+    url: 192.168.1.84
+    dns:
+      query-name: echo-server.turbo.ac
+      query-type: A
+    conditions: ["[BODY] == 192.168.42.100", "[DNS_RCODE] == NOERROR"]
+    alerts: [{ type: pushover }]
