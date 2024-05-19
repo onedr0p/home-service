@@ -165,3 +165,4 @@ sudo systemctl disable --now firewalld.service
 
 - [bjw-s/nix-config](https://github.com/bjw-s/nix-config/): NixOS driven configuration for running a home service machine, a nas or [nix-darwin](https://github.com/LnL7/nix-darwin) using [deploy-rs](https://github.com/serokell/deploy-rs) and [home-manager](https://github.com/nix-community/home-manager).
 - [truxnell/nix-config](https://github.com/truxnell/nix-config): NixOS driven configuration for running your entire homelab.
+- [joryirving/home-service](https://github.com/joryirving/home-service/): Docker-compose implementation of this repository.
