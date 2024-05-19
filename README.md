@@ -63,7 +63,7 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
 
 2. Setup the currently used interface with `systemd-networkd`
 
-    📍 _Setting the DNS server to `dnsdist` might make dragons appear 🐉._
+    📍 _Setting the DNS server to a container used on this system might make dragons appear 🐉._
 
     ```sh
     sudo bash -c 'cat << EOF > /etc/systemd/network/enp1s0.network
