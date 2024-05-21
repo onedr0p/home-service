@@ -4,17 +4,16 @@ ports:
   http: 0.0.0.0:4000
 
 bootstrapDns:
-  - https://1.1.1.1/dns-query
-  - https://1.0.0.1/dns-query
+  - tcp-tls:1.1.1.1:853
+  - tcp-tls:1.0.0.1:853
 
 upstreams:
   groups:
     default:
-      - https://1.1.1.1/dns-query
-      - https://1.0.0.1/dns-query
+      - tcp-tls:1.1.1.1:853
+      - tcp-tls:1.0.0.1:853
     river*:
-      - https://1.1.1.3/dns-query
-      - https://1.0.0.3/dns-query
+      - tcp-tls:family.cloudflare-dns.com:853
 
 conditional:
   fallbackUpstream: false
