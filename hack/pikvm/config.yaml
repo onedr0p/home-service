@@ -15,18 +15,16 @@ upstreams:
     river*:
       - tcp-tls:family.cloudflare-dns.com:853
 
+clientLookup:
+  upstream: &router 192.168.1.1
+
 conditional:
   fallbackUpstream: false
   mapping:
-    # Forward to router
-    168.192.in-addr.arpa: 192.168.1.1
-    internal: 192.168.1.1
-    # Forward to bind
-    devbu.io: 192.168.1.84:5353
-    turbo.ac: 192.168.1.84:5353
-
-clientLookup:
-  upstream: 192.168.1.1
+    168.192.in-addr.arpa: *router
+    internal: *router
+    devbu.io: *router
+    turbo.ac: *router
 
 connectIPVersion: v4
 
