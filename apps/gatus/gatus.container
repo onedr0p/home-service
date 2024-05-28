@@ -12,10 +12,6 @@ Environment=TZ=America/New_York
 EnvironmentFile=./gatus/config/config.sops.env
 Image=ghcr.io/twin/gatus:v5.11.0@sha256:eb0374eb55e3ff84ec8f9ea10342ddb623cfba23e5836138896cde01f11cf23d
 IP=192.168.1.127
-Label=traefik.enable="true"
-Label=traefik.http.routers.gatus.entrypoints="web"
-Label=traefik.http.routers.gatus.rule=Host'(`status.turbo.ac`)'
-Label=traefik.http.services.gatus.loadbalancer.server.port="80"
 Network=containernet
 Volume=./gatus/config:/config:ro
 
