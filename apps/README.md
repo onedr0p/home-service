@@ -1,44 +1,5 @@
 # apps
 
-## bind
-
-<https://www.isc.org/bind/>
-
-### bind configuration
-
-> [!IMPORTANT]
-> _**Do not** modify the key contents after it's creation, instead create a new key using `tsig-keygen`._
-
-1. Create the base rndc key and encrypt it with sops
-
-    ```sh
-    tsig-keygen -a hmac-sha256 rndc-key > ./apps/bind/data/config/rndc.sops.key
-    sops --encrypt --in-place ./apps/bind/data/config/rndc.sops.key
-    ```
-
-2. [Optional] Create additional rndc keys for external-dns and encrypt them with sops
-
-3. Update `./apps/bind/data/config` with your configuration and then start it
-
-    ```sh
-    task start-bind
-    ```
-
-## blocky
-
-<https://github.com/0xERR0R/blocky>
-
-### blocky configuration
-
-> [!IMPORTANT]
-> _Blocky can take awhile to start depending on how many blocklists you have configured_
-
-1. Update `./apps/blocky/data/config/config.yaml` with your configuration and then start it
-
-    ```sh
-    task start-blocky
-    ```
-
 ## dhcp-proxy
 
 <https://github.com/poseidon/dnsmasq>
