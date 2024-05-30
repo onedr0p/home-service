@@ -3,4 +3,6 @@
 version: "3"
 
 includes:
-  :blocky: ./blocky
+  :blocky:
+    taskfile: ./blocky
+    optional: true
