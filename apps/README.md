@@ -4,10 +4,6 @@
 
 <https://github.com/poseidon/dnsmasq>
 
-## gatus
-
-<https://github.com/TwiN/gatus>
-
 ## matchbox
 
 <https://github.com/poseidon/matchbox>
@@ -33,7 +29,3 @@
     ```sh
     task start-podman-exporter
     ```
-
-## traefik
-
-<https://github.com/traefik/traefik>
