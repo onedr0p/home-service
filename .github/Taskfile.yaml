@@ -6,12 +6,10 @@ vars:
   LABELS_CONFIG_FILE: '{{.ROOT_DIR}}/labels.yaml'
 
 x-preconditions:
-  - &not-root
-    msg: must not be run as root
-    sh: '[[ $LOGNAME != "root" ]]'
-  - &gh-workflow
-    msg: must only be ran in a GH workflow
+  - &force
     sh: '[[ -z {{.CLI_FORCE}} ]]'
+  - &not-root
+    sh: '[[ $LOGNAME != "root" ]]'
 
 tasks:
 
@@ -20,10 +18,10 @@ tasks:
     cmds:
       - for: { var: apps }
         cmd: |
-          yq -i '. += [{"name": "app/{{.ITEM}}", "color": "0e8a16"}]' {{.LABELS_CONFIG_FILE}}
+          yq --inplace '. += [{"name": "app/{{.ITEM}}", "color": "0e8a16"}]' {{.LABELS_CONFIG_FILE}}
     vars:
       apps:
-        sh: for dir in {{.ROOT_DIR}}/../apps/*/; do basename "${dir}"; done
+        sh: ls --directory {{.ROOT_DIR}}/../apps/*/ | xargs --max-args=1 basename
     preconditions:
+      - *force
       - *not-root
-      - *gh-workflow
