@@ -8,7 +8,7 @@ ContainerName=podman-exporter
 Environment=CONTAINER_HOST=unix:///run/podman/podman.sock
 Environment=TZ=America/New_York
 Exec=--collector.enhance-metrics
-Image=quay.io/navidys/prometheus-podman-exporter:v1.13.2@sha256:2fc18fd29c1f04a26850a18f9937a8b64e95696d690f2d6338e168b560319485
+Image=quay.io/navidys/prometheus-podman-exporter:v1.13.3@sha256:e0f44a6cbe172131ed6b7ab467ffa5549a7b7b87216c3fb01ac6ded31addee53
 Network=host
 SecurityLabelDisable=true
 User=root
