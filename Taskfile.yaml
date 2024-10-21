@@ -5,10 +5,6 @@ version: '3'
 env:
   SOPS_AGE_KEY_FILE: '{{.ROOT_DIR}}/age.key'
 
-vars:
-  # renovate: datasource=github-releases depName=getsops/sops
-  SOPS_VERSION: v3.9.1
-
 includes:
   app: ./apps
 
