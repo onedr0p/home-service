@@ -1,0 +1,16 @@
+[Unit]
+Description=smartctl-exporter
+
+[Container]
+ContainerName=smartctl-exporter
+Exec=--smartctl.path=/usr/sbin/smartctl --smartctl.interval=120s --web.listen-address=0.0.0.0:9633 --web.telemetry-path=/metrics
+Image=quay.io/prometheuscommunity/smartctl-exporter:v0.13.0@sha256:1fc7f4a40ab0d3c56edb6cdfe37f0cd97731ea56a154a538afe2eca7b96b82ba
+Network=host
+Volume=/dev:/dev
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=multi-user.target default.target

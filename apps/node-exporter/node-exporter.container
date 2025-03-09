@@ -3,7 +3,6 @@ Description=node-exporter
 
 [Container]
 ContainerName=node-exporter
-Environment=TZ=America/New_York
 Exec=--path.rootfs=/host
 Image=quay.io/prometheus/node-exporter:v1.9.0@sha256:c99d7ee4d12a38661788f60d9eca493f08584e2e544bbd3b3fca64749f86b848
 Network=host

@@ -1,8 +1,8 @@
 ---
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
-version: "3"
+version: '3'
 
 includes:
-  :blocky:
-    taskfile: ./blocky
+  :dhcp-relay:
+    taskfile: ./dhcp-relay
     optional: true

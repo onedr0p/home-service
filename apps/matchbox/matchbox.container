@@ -6,7 +6,6 @@ Wants=network-online.target
 [Container]
 AddCapability=NET_BIND_SERVICE
 ContainerName=matchbox
-Environment=TZ=America/New_York
 Exec=-address=0.0.0.0:80 -log-level=debug
 Image=quay.io/poseidon/matchbox:v0.11.0@sha256:06bcdae85335fd00e8277b007b55cfb49d96a0114628c0f70db2b92b079d246a
 IP=192.168.1.128

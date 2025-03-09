@@ -20,7 +20,7 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
     sudo rpm-ostree update
     sudo curl -fsSL https://github.com/terrapkg/subatomic-repos/raw/main/terra.repo | sudo pkexec tee /etc/yum.repos.d/terra.repo
     sudo rpm-ostree install --idempotent terra-release
-    sudo rpm-ostree install --idempotent --assumeyes git mise
+    sudo rpm-ostree install --idempotent --assumeyes fish git mise
     sudo systemctl reboot
     ```
 
@@ -37,7 +37,7 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
 
     ```sh
     cd /var/opt/home-service
-    go-task deps
+    task deps
     sudo systemctl reboot
     ```
 
@@ -66,7 +66,7 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
 
 2. Setup the currently used interface with `systemd-networkd`
 
-    📍 _Setting the DNS server to a container used on this system might make dragons appear 🐉._
+    📍 _Setting the DNS server to a DNS container used on this system might make dragons appear 🐉._
 
     ```sh
     sudo bash -c 'cat << EOF > /etc/systemd/network/enp1s0.network
@@ -74,8 +74,7 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
     Name = enp1s0
     [Network]
     DHCP = yes
-    DNS = 1.1.1.1
-    DNS = 1.0.0.1
+    DNS = 192.168.1.1
     IPVLAN = containernet
     [DHCPv4]
     UseDNS = false'
@@ -127,7 +126,7 @@ go-task --list
 ```sh
 chsh -s /usr/bin/fish
 # IMPORTANT: Log out and log back in
-go-task dotfiles
+task dotfiles
 ```
 
 #### Enable Chrony as a NTP server

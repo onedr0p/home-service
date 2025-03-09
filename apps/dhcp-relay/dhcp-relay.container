@@ -6,7 +6,6 @@ AddCapability=NET_BIND_SERVICE
 AddCapability=NET_ADMIN
 AddCapability=NET_RAW
 ContainerName=dhcp-relay
-Environment=TZ=America/New_York
 Exec=--log-dhcp --log-queries --no-daemon \
   --port=0 \
   --dhcp-range=192.168.1.1,proxy,255.255.255.0 \
@@ -26,7 +25,7 @@ Exec=--log-dhcp --log-queries --no-daemon \
   --dhcp-boot=tag:arm64,ipxe-arm64.efi \
   --dhcp-userclass=set:ipxe,iPXE \
   --dhcp-boot=tag:ipxe,http://192.168.1.128/boot.ipxe
-Image=quay.io/poseidon/dnsmasq:v0.5.0-31-gdc1adc8@sha256:6a839fde323fb405f6be84003a6b9019d9151caa983bfdcbc8cc1b51b1f8627d
+Image=quay.io/poseidon/dnsmasq:v0.5.0-41-g0212fd2@sha256:303aec739ff1aa419d2623a898ce8efaa6b05ca059165f531432b114b5639ef1
 Network=host
 
 [Service]
