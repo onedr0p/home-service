@@ -5,7 +5,7 @@ Description=node-exporter
 ContainerName=node-exporter
 Environment=TZ=America/New_York
 Exec=--path.rootfs=/host
-Image=quay.io/prometheus/node-exporter:v1.8.2@sha256:4032c6d5bfd752342c3e631c2f1de93ba6b86c41db6b167b9a35372c139e7706
+Image=quay.io/prometheus/node-exporter:v1.9.0@sha256:c99d7ee4d12a38661788f60d9eca493f08584e2e544bbd3b3fca64749f86b848
 Network=host
 Volume=/:/host:ro,rslave
 
