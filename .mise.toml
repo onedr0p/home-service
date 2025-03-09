@@ -1,0 +1,9 @@
+[env]
+SOPS_AGE_KEY_FILE = "{{config_root}}/age.key"
+
+[tools]
+"aqua:cli/cli" = "2.68.1"
+"aqua:FiloSottile/age" = "1.2.1"
+"aqua:getsops/sops" = "3.9.4"
+"aqua:go-task/task" = "3.42.0"
+"aqua:mikefarah/yq" = "4.45.1"

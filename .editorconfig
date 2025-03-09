@@ -14,6 +14,6 @@ insert_final_newline = true
 indent_size = 4
 trim_trailing_whitespace = false
 
-[{*.sh,*.conf,*.zone}]
+[{*.sh,*.conf}]
 indent_style = space
 indent_size = 4

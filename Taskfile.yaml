@@ -30,10 +30,7 @@ tasks:
   deps:
     desc: Install System Deps
     cmds:
-      - sudo rpm-ostree update
-      - sudo curl -fsSL https://github.com/terrapkg/subatomic-repos/raw/main/terra.repo | sudo pkexec tee /etc/yum.repos.d/terra.repo
-      - sudo rpm-ostree install --idempotent terra-release
-      - sudo rpm-ostree install --idempotent --assumeyes age bind-utils direnv expect fastfetch fish fzf gh git go-task gron htop moreutils nano net-tools netcat nmap rsync sops starship systemd-networkd tcpdump telnet tree wget yq zoxide
+      - sudo rpm-ostree install --idempotent --assumeyes bind-utils expect fastfetch fish fzf gron htop moreutils nano net-tools netcat nmap rsync starship systemd-networkd tcpdump telnet tree wget zoxide
       # - sudo rpm-ostree install --idempotent --assumeyes https://downloads.1password.com/linux/rpm/stable/x86_64/1password-cli-latest.x86_64.rpm --uninstall 1password-cli
       - sudo rpm-ostree status -v
       # - sudo systemctl reboot
@@ -139,29 +136,11 @@ tasks:
     cmds:
       - | # Nano
         git -C ~/.nano pull || git clone https://github.com/galenguyer/nano-syntax-highlighting ~/.nano
-      - | # Direnv
-        mkdir -p /home/$LOGNAME/.config/direnv && \
-        tee /home/$LOGNAME/.config/direnv/direnv.toml > /dev/null <<EOF
-        [whitelist]
-        prefix = [ "/var/opt/home-service" ]
-        EOF
       - | # Fish Hooks
         tee /home/$LOGNAME/.config/fish/conf.d/hooks.fish > /dev/null <<EOF
-        if status is-interactive
-            if type -q direnv
-                direnv hook fish | source
-            end
-            if type -q starship
-                starship init fish | source
-            end
-            if type -q zoxide
-                zoxide init fish | source
-            end
-        end
-        EOF
-      - | # Fish Aliases
-        tee /home/$LOGNAME/.config/fish/conf.d/aliases.fish > /dev/null <<EOF
-        alias task go-task
+        mise activate fish | source
+        starship init fish | source
+        zoxide init fish | source
         EOF
       - | # Fish Greeting
         tee /home/$LOGNAME/.config/fish/conf.d/fish_greeting.fish > /dev/null <<EOF

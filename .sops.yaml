@@ -1,13 +1,11 @@
 ---
 creation_rules:
-  - # Encrypt .env files
-    path_regex: (apps|containers)/.+\.sops\.env
+  - path_regex: containers/.+\.sops\.env
     input_type: dotenv
     key_groups:
       - age:
           - age1nz0njhy3v78hfwu7cx330ngu5eafvu5wtfufe9r9rqu9hhqltpxs26ukw7
-  - # Encrypt .json and bind's .key files
-    path_regex: (apps|containers)/.+\.sops\.(json|key)
+  - path_regex: containers/.+\.sops\.json
     input_type: json
     key_groups:
       - age:

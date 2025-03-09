@@ -4,7 +4,7 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
 
 ## Core components
 
-- [direnv](https://github.com/direnv/direnv): Update environment per working directory.
+- [mise](https://mise.jdx.dev/): Dev env
 - [podman](https://github.com/containers/podman): A tool for managing OCI containers and pods with native [systemd](https://docs.podman.io/en/latest/markdown/podman-systemd.unit.5.html) integration.
 - [renovate](https://github.com/renovatebot/renovate): Universal dependency automation tool.
 - [sops](https://github.com/getsops/sops): Manage secrets which are commited to Git using [Age](https://github.com/FiloSottile/age) for encryption.
@@ -17,7 +17,10 @@ My home service stack running on a [Beelink EQ12](https://www.bee-link.com/eq12-
 1. Install required system deps and reboot
 
     ```sh
-    sudo rpm-ostree install --idempotent --assumeyes git go-task
+    sudo rpm-ostree update
+    sudo curl -fsSL https://github.com/terrapkg/subatomic-repos/raw/main/terra.repo | sudo pkexec tee /etc/yum.repos.d/terra.repo
+    sudo rpm-ostree install --idempotent terra-release
+    sudo rpm-ostree install --idempotent --assumeyes git mise
     sudo systemctl reboot
     ```
 
